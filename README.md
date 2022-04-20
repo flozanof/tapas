@@ -1,11 +1,11 @@
 # Api mocks. Mocks Service Worker (MSW)
 
-## Instalaci�n librer�a MSW
+## Instalación librería MSW
 npm install msw �save-dev
-## Creaci�n fichero mock para peticiones REST
+## Creación fichero mock para peticiones REST
 fichero src/cookers
 ## Integrarar mocks. Copiar fichero en el directorio public
-Navegar hasta el directorio donde est� package.json y lanzar el comando:
+Navegar hasta el directorio donde está package.json y lanzar el comando:
 
 npx msw init <PUBLIC_DIR>
 ## Configurar worker
