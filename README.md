@@ -16,6 +16,12 @@ npx msw init <PUBLIC_DIR>
 ## Configurar worker
 Fichero mockServiceWorkers.js
 
+## Activar mocks
+Fichero index.js
+Descomentar las líneas:
+const { worker } = require('./mocks/browser')
+worker.start()
+
 # Instalación Material-UI
 npm install @mui/material @emotion/react @emotion/styled
 

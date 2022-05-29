@@ -8,8 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import PersonIcon from '@mui/icons-material/Person';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import { styled } from "@mui/material/styles";
 import Avatar from '@mui/material/Avatar';
 
@@ -79,9 +78,6 @@ const CookerAvatar = (props) => {
 
     return (
         <div>
-            <div>
-                <ToastContainer />
-            </div>
             <Card>
                 {(props.avatarTitle) &&
                     <CardHeader

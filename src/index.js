@@ -4,12 +4,14 @@ import './index.css';
 import CookerApp from './components/cooker-app/cookerApp';
 import reportWebVitals from './reportWebVitals';
 
-const { worker } = require('./mocks/browser')
-worker.start()
+//Inicar mocks
+//const { worker } = require('./mocks/browser')
+//worker.start()
 
 const container = document.getElementById('root');
 const root = createRoot(container);
-root.render(  <React.StrictMode>
+root.render(  
+<React.StrictMode>
   <CookerApp/>
 </React.StrictMode>);
 

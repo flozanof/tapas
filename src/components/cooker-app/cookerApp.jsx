@@ -10,6 +10,8 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import HomeIcon from '@mui/icons-material/Home';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 //if (process.env.NODE_ENV === 'development') {
 //}
@@ -51,11 +53,11 @@ class CookerApp extends React.Component {
 
     getActualPage() {
         const pages = [
-            <CookerList tournamentId = {this.state.tournamentId} activePageEvent={this.handleStatePageClick} loggedCookerId={this.state.loggedCookerId} />,
-            <CookerCard tournamentId = {this.state.tournamentId} activePageEvent={this.handleStatePageClick} cookerId={this.state.cookerId} loggedCookerId={this.state.loggedCookerId} />,
-            <CookersTable tournamentId = {this.state.tournamentId} activePageEvent={this.handleStatePageClick} allScore={true} loggedCookerId={this.state.loggedCookerId} />,
+            <CookerList tournamentId={this.state.tournamentId} activePageEvent={this.handleStatePageClick} loggedCookerId={this.state.loggedCookerId} />,
+            <CookerCard tournamentId={this.state.tournamentId} activePageEvent={this.handleStatePageClick} cookerId={this.state.cookerId} loggedCookerId={this.state.loggedCookerId} />,
+            <CookersTable tournamentId={this.state.tournamentId} activePageEvent={this.handleStatePageClick} allScore={true} loggedCookerId={this.state.loggedCookerId} />,
             <CookersVoterTable activePageEvent={this.handleStatePageClick} loggedCookerId={this.state.loggedCookerId} />,
-            <CookersScoreForm tournamentId = {this.state.tournamentId} activePageEvent={this.handleStatePageClick} cookerId={this.state.cookerId} loggedCookerId={this.state.loggedCookerId} />
+            <CookersScoreForm tournamentId={this.state.tournamentId} activePageEvent={this.handleStatePageClick} cookerId={this.state.cookerId} loggedCookerId={this.state.loggedCookerId} />
         ];
         console.info("pag: " + this.state.idPage);
         return pages[this.state.idPage];
@@ -64,12 +66,16 @@ class CookerApp extends React.Component {
     render() {
         return (
             <div>
+                <div>
+                    <ToastContainer />
+                </div>
+
                 {this.state.loggedCookerId === 0
                     ? < CookerLogin activePageEvent={this.handleLoggingClick} />
                     :
                     <div>
                         <div>
-                            <Box sx={{ flexGrow: 1, p: "15px 15px 15px 15px"}}>
+                            <Box sx={{ flexGrow: 1, p: "15px 15px 15px 15px" }}>
                                 {this.state.idPage !== 0 &&
                                     <Button
                                         variant="outlined"
@@ -81,18 +87,18 @@ class CookerApp extends React.Component {
                                     </Button>
                                 }
                                 {this.state.idPage !== 2 &&
-                                    <Button 
-                                        variant="outlined" 
-                                        sx={{ flexGrow: 1, m: 1 }} 
+                                    <Button
+                                        variant="outlined"
+                                        sx={{ flexGrow: 1, m: 1 }}
                                         onClick={() => this.handleStatePageClick(2, this.state.loggedCookerId)}
                                     >
                                         Resultados
                                     </Button>
                                 }
                                 {this.state.idPage !== 3 &&
-                                    <Button 
-                                        variant="outlined" 
-                                        sx={{ flexGrow: 1, m: 1 }} 
+                                    <Button
+                                        variant="outlined"
+                                        sx={{ flexGrow: 1, m: 1 }}
                                         onClick={() => this.handleStatePageClick(3, this.state.loggedCookerId)}
                                     >
                                         Mis Puntuaciones
@@ -100,7 +106,7 @@ class CookerApp extends React.Component {
                                 }
                             </Box>
                         </div>
-                        {this.getActualPage()}  
+                        {this.getActualPage()}
                     </div>
                 }
                 <Copyright />

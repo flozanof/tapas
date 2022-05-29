@@ -9,8 +9,7 @@ import CourseCard from '../course-card/courseCard';
 import Typography from '@mui/material/Typography';
 import CookerLoading from '../cooker-loading/cookerLoading';
 import Button from '@mui/material/Button';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import Switch from '@mui/material/Switch';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -141,8 +140,8 @@ const CookerCard = (props) => {
     // Guardamos visiblidad de todas las imágenes de un plato.
     const saveAllVisibility = (allVisible) => {
         //console.log('**************************  allVisible: ');
-//        console.log('http://localhost:8081/courses/' + cooker.courseId + '/images/visibles/' + (allVisible ? '1' : '0'));
         if (cooker !== null) {
+        console.log('http://localhost:8081/courses/' + cooker.courseId + '/images/visibles/' + (allVisible ? '1' : '0'));
             // POST request using fetch with error handling
             const requestOptions = {
                 method: 'PUT',
@@ -151,20 +150,20 @@ const CookerCard = (props) => {
                 .then((response) => {
                     if (response.ok) {
                         updateCookerAllVisibleState(allVisible)
-                        toast.success('Visibilidad de imágenes OK');
                     } else {
-                        toast.error('Visibilidad de imagen ERROR');
+                        throw new Error('API Error.');
                     }
-                })
-                .catch(err => {
+                }).then ( () => { 
+                    toast.success('Visibilidad de imágenes OK');
+                }).catch(err => {
                     toast.error('Visibilidad de imagen ERROR', err);
                 });
         }
     };
 
     const handleImgVisibility = (event) => {
-        event.preventDefault()
-        saveAllVisibility(event.target.checked)
+        event.preventDefault();
+        saveAllVisibility(event.target.checked);
     };
 
     const updateOrderImageStatus = (imageId, order) => {
@@ -263,9 +262,6 @@ const CookerCard = (props) => {
     if (cooker != null) {
         return (
             <div>
-                <div>
-                    <ToastContainer />
-                </div>
                 <Box sx={{ flexGrow: 1, p: "5px 15px 15px 15px" }} >
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6} md={5} lg={4} xl={4}>

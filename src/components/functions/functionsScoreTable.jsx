@@ -30,7 +30,7 @@ const listScores = (scores, loggedCookerId, activePageEvent, page, modified) => 
                 <TableCell component="th" scope="row" style={{ borderRight: "1px solid #505050" }}>
                     {row.cookerName}
                 </TableCell>
-                <TableCell align="cen" style={{ borderRight: "1px solid #e0e0e0" }}>{row.score.taste}</TableCell>
+                <TableCell align="center" style={{ borderRight: "1px solid #e0e0e0" }}>{row.score.taste}</TableCell>
                 <TableCell align="center" style={{ borderRight: "1px solid #505050" }}>{row.scoreWeighted.taste}</TableCell>
                 <TableCell align="center" style={{ borderRight: "1px solid #e0e0e0" }}>{row.score.presentation}</TableCell>
                 <TableCell align="center" style={{ borderRight: "1px solid #505050" }}>{row.scoreWeighted.presentation}</TableCell>

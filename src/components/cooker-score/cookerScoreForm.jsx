@@ -7,8 +7,8 @@ import Button from '@mui/material/Button';
 import CookerAvatar from '../cooker-avatar/cookerAvatar';
 import SendIcon from '@mui/icons-material/Send';
 import CookerLoading from '../cooker-loading/cookerLoading';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+
 
 const CookerScoreForm = (props) => {
     const [scoreCooker, setScoreCooker] = React.useState({});
@@ -180,9 +180,6 @@ const CookerScoreForm = (props) => {
         console.log("cookerScoreForm.js: " + scoreCooker.cookerPhoto);
         return (
             <div>
-                <div>
-                    <ToastContainer />
-                </div>
                 <Grid container spacing={1} margin="20px">
 
                     <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>

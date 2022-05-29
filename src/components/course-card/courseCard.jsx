@@ -7,7 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { styled } from "@mui/material/styles";
-import MenuOrder from '../cooker-card/menuOrder';
+import MenuOrder from './menuOrder';
 
 const MyCardContentNoPadding = styled(CardContent)(`
   padding: 0;
