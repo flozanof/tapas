@@ -21,26 +21,29 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const listScores = (scores, loggedCookerId, activePageEvent, page, modified) =>  {
     return (
-        scores.map((row) => (
+        scores.scores.map((row, index) => (
             <TableRow
-                key={row.id}
+                key={row.cookerId}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-                <TableCell component="th" scope="row">
-                    {row.name}
+                <TableCell align="center" style={{ borderRight: "1px solid #505050" }}>{index + 1}</TableCell>
+                <TableCell component="th" scope="row" style={{ borderRight: "1px solid #505050" }}>
+                    {row.cookerName}
                 </TableCell>
-                <TableCell align="right">{row.score.taste}</TableCell>
-                <TableCell align="right">{row.score.presentation}</TableCell>
-                <TableCell align="right">{row.score.elaboration}</TableCell>
-                <TableCell align="right">{row.score.product}</TableCell>
-                <TableCell align="right">{Object.values(row.score).reduce((total, num) => {
-                                                                return total + num;
-                                                            })}
+                <TableCell align="cen" style={{ borderRight: "1px solid #e0e0e0" }}>{row.score.taste}</TableCell>
+                <TableCell align="center" style={{ borderRight: "1px solid #505050" }}>{row.scoreWeighted.taste}</TableCell>
+                <TableCell align="center" style={{ borderRight: "1px solid #e0e0e0" }}>{row.score.presentation}</TableCell>
+                <TableCell align="center" style={{ borderRight: "1px solid #505050" }}>{row.scoreWeighted.presentation}</TableCell>
+                <TableCell align="center" style={{ borderRight: "1px solid #e0e0e0" }}>{row.score.elaboration}</TableCell>
+                <TableCell align="center" style={{ borderRight: "1px solid #505050" }}>{row.scoreWeighted.elaboration}</TableCell>
+                <TableCell align="center" style={{ borderRight: "1px solid #e0e0e0" }}>{row.score.product}</TableCell>
+                <TableCell align="center" style={{ borderRight: "1px solid #505050" }}>{row.scoreWeighted.product}</TableCell>
+                <TableCell align="center">{row.totalWeighted}
                 </TableCell>
                 { modified &&  
                     <TableCell align="center">
                         {(row.id !== loggedCookerId) &&
-                            <Button variant="outlined" sx={{ color: blueGrey[400] }} onClick={() => activePageEvent(page, row.id)} >
+                            <Button variant="outlined" sx={{ color: blueGrey[400] }} onClick={() => activePageEvent(page, row.cookerId)} >
                                 <EditIcon sx={{ color: blueGrey[400], "& :hover": { color: blueGrey[600] } }} />
                             </Button>
                         }
@@ -60,12 +63,17 @@ export const scoreCookersTable = (title, scores, loggedCookerId, activePageEvent
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
                         <TableRow>
+                            <TableCell align="center" width={10}>Pos</TableCell>
                             <TableCell>Nombre</TableCell>
-                            <TableCell align="right">Sabor</TableCell>
-                            <TableCell align="right">Presentación</TableCell>
-                            <TableCell align="right">Elaboración</TableCell>
-                            <TableCell align="right">Producto</TableCell>
-                            <TableCell align="right">Total</TableCell>
+                            <TableCell align="center">Sabor</TableCell>
+                            <TableCell align="center">({scores.weight.taste})</TableCell>
+                            <TableCell align="center">Presentación</TableCell>
+                            <TableCell align="center">({scores.weight.presentation})</TableCell>
+                            <TableCell align="center">Elaboración</TableCell>
+                            <TableCell align="center">({scores.weight.elaboration})</TableCell>
+                            <TableCell align="center">Producto</TableCell>
+                            <TableCell align="center">({scores.weight.product})</TableCell>
+                            <TableCell align="center">Total</TableCell>
                             { modified && <TableCell align="center"/> }
                         </TableRow>
                     </TableHead>

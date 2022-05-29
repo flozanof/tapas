@@ -1,7 +1,12 @@
+# Configuración
+- CookerApp: en el estado asignar tournamentId
+- Crear la carpeta /public/img/{tournamentId}
+- En http://localhost:8081/h2-console/login.do (user1, pass1) insertar en tabla COOKER y SCORE.
+
 # Api mocks. Mocks Service Worker (MSW)
 
 ## Instalación librería MSW
-npm install msw �save-dev
+npm install msw --save-dev
 ## Creación fichero mock para peticiones REST
 fichero src/cookers
 ## Integrarar mocks. Copiar fichero en el directorio public
@@ -9,8 +14,13 @@ Navegar hasta el directorio donde está package.json y lanzar el comando:
 
 npx msw init <PUBLIC_DIR>
 ## Configurar worker
-Fichero workerSetup.js
+Fichero mockServiceWorkers.js
 
+# Instalación Material-UI
+npm install @mui/material @emotion/react @emotion/styled
+
+# Material icons
+npm install @mui/icons-material
 
 # Getting Started with Create React App
 
@@ -82,3 +92,32 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+# Configuraci�n servidor para que usuarios puedan subir imágenes a /public
+https://programmingwithmosh.com/javascript/react-file-upload-proper-server-side-nodejs-easy/
+
+## Install and import Axios for AJAX request
+import axios from 'axios';
+
+# Create a simple server with Node.
+Servidor que subirá las imágenes/videos desde directorio local a directorio /public/uploads
+
+## Install express, multer, and cors.
+
+npm i express multer cors nodemon -save
+
+We'll use express to create a server, multer to handle files. Cors will be used to enable cross-origin request to this server. Nodemon to monitor the changes and auto-reload, it is optional and you'll have to restart the server manually in its absence.
+
+## Ejecución del servidor
+
+Run nodemon server.js in a terminal to start this server
+
+# Instalar toastify para visualizar mensajes
+npm install --save react-toastify
+
+
+# Deploy
+- npm run build : genera carpeta /build con todos los ficheros necesarios para el deploy. Ver comentarios sobre deploy de este comando.
+-- Ejecutar:
+---npm install -g serve
+---serve -s build
