@@ -33,7 +33,7 @@ class CookerApp extends React.Component {
         this.state = {
             idPage: 0,
             cookerId: 0,
-            loggedCookerId: 1,
+            loggedCookerId: 0,
             tournamentId: '02-2022'
         };
         this.handleLoggingClick = this.handleLoggingClick.bind(this);
