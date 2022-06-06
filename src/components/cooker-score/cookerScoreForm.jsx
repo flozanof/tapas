@@ -31,18 +31,13 @@ const CookerScoreForm = (props) => {
     }
 
     React.useEffect(() => {
-        console.log('cookerScoreForm.js. http://localhost:8081/scores/cookers/' + props.cookerId + '/voters/' + props.loggedCookerId);
         fetch('http://localhost:8081/scores/cookers/' + props.cookerId + '/voters/' + props.loggedCookerId)
             .then(response => response.json())
             .then((aScoreCooker) => {
-                console.info("cookerId: " + aScoreCooker.id);
-                console.info("response.taste" + aScoreCooker.score.taste);
                 setScoreCooker(aScoreCooker);
                 setValues(aScoreCooker.score);
-                console.log('--> updateScore = ' + isUpdateAction(aScoreCooker.score));
             });
     }, [props.cookerId, props.loggedCookerId]);
-    // [] indica que solo se tiene que ejecutar una vez. Un campo de estado indica que se ejecuta cuando cambie el valor.
 
     const validateScore = (score, name, validation, valName) => {
         let isValid = true;
@@ -54,23 +49,19 @@ const CookerScoreForm = (props) => {
         }
 
         if (score && isNaN(score)) {
-            console.log('******** error validación no es un número');
             validation[valName] = `La puntuación de "${name}" tiene que ser un número entero ente 1 y 10.`
             isValid = false;
         } else {
             if (!(score && score % 1 === 0)) {
-                console.log('**** error validación número decimal');
                 validation[valName] = `La puntuación de "${name}" tiene que ser un número entero entre 1 y 10.`
                 isValid = false;
             }
         }
 
         if (score && ((score < 1) || (score > 10))) {
-            console.log('******** error validación número fuera rango ' + score);
             validation[valName] = `La puntuación de "${name}" debe estar entre 1 y 10.`
             isValid = false
         }
-        console.log('**** validateScore: ' + isValid);
         return isValid;
     }
 
@@ -78,7 +69,6 @@ const CookerScoreForm = (props) => {
         const { taste, presentation, elaboration, product } = values
         const validations = { taste: '', presentation: '', elaboration: '', product: '' }
         let isValid = true
-        console.log('*** Entra en validateAll');
         if (!validateScore(taste, 'Sabor', validations, 'taste')) {
             isValid = false
         }
@@ -136,8 +126,6 @@ const CookerScoreForm = (props) => {
         if (!isValid) {
             return false
         }
-        console.log('--->updateScore: ' + isUpdateAction(scoreCooker.score));
-        // POST request using fetch with error handling
         const requestOptions = {
             method: isUpdateAction(scoreCooker.score) ? 'PUT' : 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -147,15 +135,11 @@ const CookerScoreForm = (props) => {
                 score: values
             })
         };
-        //        console.log('--->updateScore: ' + isUpdateAction(scoreCooker.score) + 'scoreCooker.id ' + requestOptions.body);
         fetch('http://localhost:8081/scores/voters/' + props.loggedCookerId, requestOptions)
-            .then(async response => {
-                const isJson = response.headers.get('content-type')?.includes('application/json');
-                const data = isJson && await response.json();
+            .then(response => {
+                const data = response.json();
 
-                // check for error response
                 if (!response.ok) {
-                    // get error message from body or default to response status
                     const error = (data && data.message) || response.status;
                     return Promise.reject(error);
                 }

@@ -30,7 +30,6 @@ const CookerCard = (props) => {
 
     // Recuperamos información del cocinero de la API.
     React.useEffect(() => {
-//        console.log('**** CookerCard. Peticion: http://localhost:8081/cookers/' + props.cookerId);
         fetch('http://localhost:8081/cookers/' + props.cookerId)
             .then((response) => {
                 return response.json()
@@ -43,7 +42,6 @@ const CookerCard = (props) => {
     // Subimos imagen del plato al servidor. Luego hay que guardar nombre del fichero en bbdd.
     React.useEffect(() => {
         if (selectedImage) {
-//            console.log('CookerCard 1: http://localhost:8000/upload/ ' + props.tournamentId + '/' + selectedImage);
             setImageUrl(URL.createObjectURL(selectedImage));
             const data = new FormData()
             data.append('file', selectedImage)
@@ -53,9 +51,6 @@ const CookerCard = (props) => {
                 body: data
             };
             fetch('http://localhost:8000/upload/' + props.tournamentId + '/', requestOptions)
-                //                .then((res) => {
-                //                    toast.success('upload success  '+ res.statusText +' ' + res.text);
-                //                })
                 .then((res) => res.text())
                 .then((res) => {
                     toast.success('Upload Success');
@@ -139,10 +134,8 @@ const CookerCard = (props) => {
 
     // Guardamos visiblidad de todas las imágenes de un plato.
     const saveAllVisibility = (allVisible) => {
-        //console.log('**************************  allVisible: ');
         if (cooker !== null) {
         console.log('http://localhost:8081/courses/' + cooker.courseId + '/images/visibles/' + (allVisible ? '1' : '0'));
-            // POST request using fetch with error handling
             const requestOptions = {
                 method: 'PUT',
             };
@@ -208,9 +201,8 @@ const CookerCard = (props) => {
             })
         };
         fetch('http://localhost:8081/courses', requestOptions)
-            .then(async response => {
-                const isJson = response.headers.get('content-type')?.includes('application/json');
-                const data = isJson && await response.json();
+            .then(response => {
+                const data =response.json();
 
                 // check for error response
                 if (!response.ok) {

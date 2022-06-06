@@ -22,6 +22,26 @@ Descomentar las líneas:
 const { worker } = require('./mocks/browser')
 worker.start()
 
+# Deploy
+npm run build
+serve -s build
+
+## Configuración express para configurar servidor
+npm install express --save
+
+## Configuración express para tener varios servidores
+Ver ficheros:
+- app.js (servidor 1)
+- appUploadFile.js (servidor 2)
+- configDomain.js (servidor 1)
+- configDomainUpFile.js (servidor 2)
+- route.js (servidor 1)
+- routeUpFile.js (servidor 2)
+- index.js
+
+Ejecutar: node index.js
+
+
 # Instalación Material-UI
 npm install @mui/material @emotion/react @emotion/styled
 
