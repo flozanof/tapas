@@ -119,7 +119,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-# Configuraci�n servidor para que usuarios puedan subir imágenes a /public
+# Configuración servidor para que usuarios puedan subir imágenes a /public
 https://programmingwithmosh.com/javascript/react-file-upload-proper-server-side-nodejs-easy/
 
 ## Install and import Axios for AJAX request
@@ -147,3 +147,6 @@ npm install --save react-toastify
 -- Ejecutar:
 ---npm install -g serve
 ---serve -s build
+
+# URL aplicación
+https://flozanof.github.io/tapas/
