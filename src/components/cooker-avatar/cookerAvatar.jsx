@@ -52,7 +52,7 @@ const CookerAvatar = (props) => {
     // Guardamos nombre del fichero que se ha subido al servidor en base de datos.
     React.useEffect(() => {
         if (fileUploaded != null) {
-            console.log('**** CookerAvatar. Peticion: http://localhost:8081/cookers/');
+            console.log('**** CookerAvatar. Peticion: ' + process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COOKERS_PHOTO);
             // POST request using fetch with error handling
             const requestOptions = {
                 method: 'PUT',
@@ -62,7 +62,7 @@ const CookerAvatar = (props) => {
                     'cookerPhoto': fileUploaded,
                 })
             };
-            fetch('http://localhost:8081/cookers/photo', requestOptions)
+            fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COOKERS_PHOTO, requestOptions)
                 .then((response) => {
                     if (response.ok) {
                         toast.success('Image Save Success');
@@ -84,14 +84,14 @@ const CookerAvatar = (props) => {
                         title={props.avatarTitle}
                         // subheader="September 14, 2016"
                         action={
-                            <Avatar src={`/img/${props.cookerImage}`} />
+                            <Avatar src={process.env.REACT_APP_PUBLIC_IMG +`${props.cookerImage}`} />
                         }
                     />
                 }
                 <CardMedia
                     component="img"
                     height={props.cardHeight}
-                    image={`/img/${props.avatarImage}`}
+                    image={process.env.REACT_APP_PUBLIC_IMG + `${props.avatarImage}`}
                     alt={props.avatarName}
                 />
                 <MyCardContentNoPadding sx={{

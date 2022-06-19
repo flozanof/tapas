@@ -144,6 +144,15 @@ npm install --save react-toastify
 
 # Deploy
 - npm run build : genera carpeta /build con todos los ficheros necesarios para el deploy. Ver comentarios sobre deploy de este comando.
+
 -- Ejecutar:
+
 ---npm install -g serve
+
 ---serve -s build
+
+## Deploy en github
+https://create-react-app.dev/docs/deployment/
+
+- Deploy: npm run deploy
+- url: https://flozanof.github.io/tapas/

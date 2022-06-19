@@ -31,7 +31,7 @@ const CookerScoreForm = (props) => {
     }
 
     React.useEffect(() => {
-        fetch('http://localhost:8081/scores/cookers/' + props.cookerId + '/voters/' + props.loggedCookerId)
+        fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_SCORES_COOKERS + '/' + props.cookerId + process.env.REACT_APP_API_VOTE_VOTERS + '/' + props.loggedCookerId)
             .then(response => response.json())
             .then((aScoreCooker) => {
                 setScoreCooker(aScoreCooker);
@@ -135,7 +135,7 @@ const CookerScoreForm = (props) => {
                 score: values
             })
         };
-        fetch('http://localhost:8081/scores/voters/' + props.loggedCookerId, requestOptions)
+        fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_SCORES_COOKERS_VOTERS + '/' + props.loggedCookerId, requestOptions)
             .then(response => {
                 const data = response.json();
 

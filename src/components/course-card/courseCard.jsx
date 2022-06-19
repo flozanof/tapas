@@ -27,12 +27,12 @@ const CourseCard = (props) => {
 
     // Guardamos nombre del fichero que se ha subido al servidor en base de datos.
     const updateVisibility = (visible) => {
-        console.log('http://localhost:8081/courses/images/' + props.imageId + '/visible/' + visible);
+        console.log(process.env.REACT_APP_API + process.env.REACT_APP_API_VOTE_COURSES + process.env.REACT_APP_API_VOTE_COURSES_IMG + '/' + props.imageId + '/visible/' + visible);
         // POST request using fetch with error handling
         const requestOptions = {
             method: 'PUT',
         };
-        fetch('http://localhost:8081/courses/images/' + props.imageId + '/visible/' + visible, requestOptions)
+        fetch(process.env.REACT_APP_API + process.env.REACT_APP_API_VOTE_COURSES + process.env.REACT_APP_API_VOTE_COURSES_IMG + '/' + props.imageId + '/visible/' + visible, requestOptions)
             .then((response) => {
                 if (response.ok) {
                     setImgVisible(visible);
@@ -50,12 +50,12 @@ const CourseCard = (props) => {
     };
 
     const deleteCourseImage = () => {
-        console.log('http://localhost:8081/courses/images/' + props.imageId + ' (DELETE)');
+        console.log(process.env.REACT_APP_API + process.env.REACT_APP_API_VOTE_COURSES + process.env.REACT_APP_API_VOTE_COURSES_IMG + '/' + props.imageId + ' (DELETE)');
         // POST request using fetch with error handling
         const requestOptions = {
             method: 'DELETE',
         };
-        fetch('http://localhost:8081/courses/images/' + props.imageId, requestOptions)
+        fetch(process.env.REACT_APP_API + process.env.REACT_APP_API_VOTE_COURSES + process.env.REACT_APP_API_VOTE_COURSES_IMG + '/' + props.imageId, requestOptions)
             .then((response) => {
                 if (response.ok) {
                     console.log('Borrado imagen OK');
@@ -80,7 +80,7 @@ const CourseCard = (props) => {
                     <CardMedia
                         component="img"
                         height="200"
-                        image={`/img/${props.avatarImage}`}
+                        image={process.env.REACT_APP_PUBLIC_IMG +`${props.avatarImage}`}
                         alt={props.avatarName}
                     />
                 </div>
@@ -90,7 +90,7 @@ const CourseCard = (props) => {
                     <CardMedia
                         component="video"
                         height="200"
-                        image={`/img/${props.avatarImage}`}
+                        image={process.env.REACT_APP_PUBLIC_IMG +`${props.avatarImage}`}
                         title='title'
                         controls
                     />

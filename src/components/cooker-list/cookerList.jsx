@@ -9,8 +9,8 @@ const CookerList = (props) => {
     const [cookers, setCookers] = React.useState([]);
 
     React.useEffect(() => {
-        console.log('**CookerList:http://localhost:8081/cookers/tournamets/' + props.tournamentId);
-        fetch('http://localhost:8081/cookers/tournamets/' + props.tournamentId)
+        console.log('**CookerList:' + process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COOKERS_TOURNAMENTS + '/' + props.tournamentId);
+        fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COOKERS_TOURNAMENTS + '/' + props.tournamentId)
             .then(response => {return response.json()})
             .then((cookersList) => 
                 setCookers(cookersList.cookers))

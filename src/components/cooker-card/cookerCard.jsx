@@ -30,7 +30,7 @@ const CookerCard = (props) => {
 
     // Recuperamos información del cocinero de la API.
     React.useEffect(() => {
-        fetch('http://localhost:8081/cookers/' + props.cookerId)
+        fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_COOKERS + '/' + props.cookerId)
             .then((response) => {
                 return response.json()
             })
@@ -65,14 +65,14 @@ const CookerCard = (props) => {
     // Guardamos nombre del fichero que se ha subido al servidor en base de datos.
     React.useEffect(() => {
         if (fileUploaded != null) {
-//            console.log('**** CookerCard. Peticion: http://localhost:8081/courses/' + cooker.id + '/images');
+//            console.log('**** CookerCard. Peticion: ' + process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + '/' + cooker.id + process.env.REACT_APP_API_VOTE_COURSES_IMG);
             // POST request using fetch with error handling
             const requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 'imageNames': [fileUploaded] })
             };
-            fetch('http://localhost:8081/courses/' + cooker.id + '/images', requestOptions)
+            fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + '/' + cooker.id + process.env.REACT_APP_API_VOTE_COURSES_IMG, requestOptions)
                 .then((response) => {
                     if (response.ok) {
                         toast.success('Image Save Success');
@@ -135,11 +135,11 @@ const CookerCard = (props) => {
     // Guardamos visiblidad de todas las imágenes de un plato.
     const saveAllVisibility = (allVisible) => {
         if (cooker !== null) {
-        console.log('http://localhost:8081/courses/' + cooker.courseId + '/images/visibles/' + (allVisible ? '1' : '0'));
+        console.log(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + '/' + cooker.courseId + process.env.REACT_APP_API_VOTE_COURSES_IMG_VISIBLES + '/' + (allVisible ? '1' : '0'));
             const requestOptions = {
                 method: 'PUT',
             };
-            fetch('http://localhost:8081/courses/' + cooker.courseId + '/images/visibles/' + (allVisible ? '1' : '0'), requestOptions)
+            fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + '/' + cooker.courseId + process.env.REACT_APP_API_VOTE_COURSES_IMG_VISIBLES + '/' + (allVisible ? '1' : '0'), requestOptions)
                 .then((response) => {
                     if (response.ok) {
                         updateCookerAllVisibleState(allVisible)
@@ -200,7 +200,7 @@ const CookerCard = (props) => {
                 'description': cookerEdit.description,
             })
         };
-        fetch('http://localhost:8081/courses', requestOptions)
+        fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES, requestOptions)
             .then(response => {
                 const data =response.json();
 

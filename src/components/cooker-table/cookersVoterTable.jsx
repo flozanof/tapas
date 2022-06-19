@@ -6,7 +6,7 @@ const CookersVoterTable = (props) => {
     const [scoresCookers, setScoresCookers] = React.useState([]);
 
     React.useEffect(() => {
-        fetch('http://localhost:8081/scores/voters/' +  props.loggedCookerId)
+        fetch(process.env.REACT_APP_API + process.env.REACT_APP_API_VOTE_SCORES_VOTERS + '/' +  props.loggedCookerId)
             .then((response) => {
                 return response.json()
             })

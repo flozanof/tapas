@@ -21,12 +21,12 @@ const MenuOrder = (props) => {
     // Actualizamos orden de la foto en el servidor.
     const handleItemClick = (event) => {
         event.preventDefault();
-        console.log('http://localhost:8081/courses/images/' + props.imageId + '/order/' + event.target.value);
+        console.log(process.env.REACT_APP_API + process.env.REACT_APP_API_VOTE_COURSES + process.env.REACT_APP_API_VOTE_COURSES_IMG + '/' + props.imageId + '/order/' + event.target.value);
         // POST request using fetch with error handling
         const requestOptions = {
             method: 'PUT',
         };
-        fetch('http://localhost:8081/courses/images/' + props.imageId + '/order/' + event.target.value, requestOptions)
+        fetch(process.env.REACT_APP_API + process.env.REACT_APP_API_VOTE_COURSES + process.env.REACT_APP_API_VOTE_COURSES_IMG + '/' + props.imageId + '/order/' + event.target.value, requestOptions)
             .then((response) => {
                 if (response.ok) {
                     setImgOrder(event.target.value);
