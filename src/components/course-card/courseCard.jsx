@@ -27,12 +27,12 @@ const CourseCard = (props) => {
 
     // Guardamos nombre del fichero que se ha subido al servidor en base de datos.
     const updateVisibility = (visible) => {
-        console.log(process.env.REACT_APP_API + process.env.REACT_APP_API_VOTE_COURSES + process.env.REACT_APP_API_VOTE_COURSES_IMG + '/' + props.imageId + '/visible/' + visible);
+        console.log(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + process.env.REACT_APP_API_VOTE_COURSES_IMG + '/' + props.imageId + '/visible/' + visible);
         // POST request using fetch with error handling
         const requestOptions = {
             method: 'PUT',
         };
-        fetch(process.env.REACT_APP_API + process.env.REACT_APP_API_VOTE_COURSES + process.env.REACT_APP_API_VOTE_COURSES_IMG + '/' + props.imageId + '/visible/' + visible, requestOptions)
+        fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + process.env.REACT_APP_API_VOTE_COURSES_IMG + '/' + props.imageId + '/visible/' + visible, requestOptions)
             .then((response) => {
                 if (response.ok) {
                     setImgVisible(visible);
@@ -50,12 +50,12 @@ const CourseCard = (props) => {
     };
 
     const deleteCourseImage = () => {
-        console.log(process.env.REACT_APP_API + process.env.REACT_APP_API_VOTE_COURSES + process.env.REACT_APP_API_VOTE_COURSES_IMG + '/' + props.imageId + ' (DELETE)');
+        console.log(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + process.env.REACT_APP_API_VOTE_COURSES_IMG + '/' + props.imageId + ' (DELETE)');
         // POST request using fetch with error handling
         const requestOptions = {
             method: 'DELETE',
         };
-        fetch(process.env.REACT_APP_API + process.env.REACT_APP_API_VOTE_COURSES + process.env.REACT_APP_API_VOTE_COURSES_IMG + '/' + props.imageId, requestOptions)
+        fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + process.env.REACT_APP_API_VOTE_COURSES_IMG + '/' + props.imageId, requestOptions)
             .then((response) => {
                 if (response.ok) {
                     console.log('Borrado imagen OK');

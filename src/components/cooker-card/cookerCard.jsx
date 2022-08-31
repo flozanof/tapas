@@ -30,7 +30,7 @@ const CookerCard = (props) => {
 
     // Recuperamos información del cocinero de la API.
     React.useEffect(() => {
-        fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_COOKERS + '/' + props.cookerId)
+        fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COOKERS + '/' + props.cookerId)
             .then((response) => {
                 return response.json()
             })
