@@ -1,3 +1,8 @@
+# Ejecutar aplicación
+- Directorio tapas: Ejecutar npm start
+- Directorio tapas: Ejecutar node .\src\servers\index.js
+- Levantar servidor java: Proyectos\Paco\votacion
+
 # Configuración
 - CookerApp: en el estado asignar tournamentId
 - Crear la carpeta /public/img/{tournamentId}
@@ -39,7 +44,7 @@ Ver ficheros:
 - routeUpFile.js (servidor 2)
 - index.js
 
-Ejecutar: node index.js
+Ejecutar: node .\src\servers\index.js
 
 
 # Instalación Material-UI
@@ -136,7 +141,7 @@ We'll use express to create a server, multer to handle files. Cors will be used 
 
 ## Ejecución del servidor
 
-Run nodemon server.js in a terminal to start this server
+run node .\src\servers\index.js
 
 # Instalar toastify para visualizar mensajes
 npm install --save react-toastify

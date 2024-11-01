@@ -26,7 +26,6 @@ const CookerCard = (props) => {
     const [cookerEdit, setCookerEdit] = React.useState(null);
     const [selectedImage, setSelectedImage] = React.useState(null);
     const [imageUrl, setImageUrl] = React.useState(null);
-    const [fileUploaded, setFileUploaded] = React.useState(null);
 
     // Recuperamos información del cocinero de la API.
     React.useEffect(() => {
@@ -40,6 +39,7 @@ const CookerCard = (props) => {
     }, [props.cookerId]);
 
     // Subimos imagen del plato al servidor. Luego hay que guardar nombre del fichero en bbdd.
+/**
     React.useEffect(() => {
         if (selectedImage) {
             setImageUrl(URL.createObjectURL(selectedImage));
@@ -61,15 +61,42 @@ const CookerCard = (props) => {
                 });
         }
     }, [selectedImage, props.tournamentId]);
+ */
+    React.useEffect(() => {
+        if (selectedImage) {
+            setImageUrl(URL.createObjectURL(selectedImage));
+            const data = new FormData()
+            data.append('image', selectedImage)
+            const requestOptions = {
+                method: 'POST',
+                //Si lo pongo no funciona.            headers: { 'Content-Type': 'multipart/form-data' },
+                body: data
+            };
+            console.log('llamada a: ' + process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + '/' + cooker.id + '/images/upload');
+            fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + '/' + props.tournamentId  + '/' + cooker.id + '/images/upload', requestOptions)
+                .then((res) => res.text())
+                .then((res) => {
+                    if ("OK" === res) {
+                        toast.success("Upload File OK");
+                    } else {
+                        toast.error(res)
+                    }
+                })
+                .catch(err => {
+                    console.log("error: " + err);
+                    toast.error('Upload Fail: ' + err.text)
+                });
+        }
+    }, [selectedImage, props.tournamentId, cooker]);
 
+/** 
+// Subimos imagen y guardamos en base de datos al mismo tiempo.
     // Guardamos nombre del fichero que se ha subido al servidor en base de datos.
     React.useEffect(() => {
         if (fileUploaded != null) {
-//            console.log('**** CookerCard. Peticion: ' + process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + '/' + cooker.id + process.env.REACT_APP_API_VOTE_COURSES_IMG);
-            // POST request using fetch with error handling
             const requestOptions = {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'enctype': 'multipart/form-data' },
                 body: JSON.stringify({ 'imageNames': [fileUploaded] })
             };
             fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + '/' + cooker.id + process.env.REACT_APP_API_VOTE_COURSES_IMG, requestOptions)
@@ -85,6 +112,7 @@ const CookerCard = (props) => {
                 });
         }
     }, [fileUploaded, cooker]);
+ */    
 
     const handleDeleteImgClick = (photoId) => {
         setCooker(oldCooker => ({ ...oldCooker, coursePhotos: [...cooker.coursePhotos.filter(p => p.id !== photoId)] }));

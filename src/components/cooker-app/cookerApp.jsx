@@ -5,7 +5,7 @@ import CookerList from '../cooker-list/cookerList';
 import CookerCard from '../cooker-card/cookerCard';
 import CookersTable from '../cooker-table/cookersTable';
 import CookersVoterTable from '../cooker-table/cookersVoterTable';
-import CookersScoreForm from '../cooker-score/cookerScoreForm';
+import CookerScoreForm from '../cooker-score/cookerScoreForm';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -57,7 +57,7 @@ class CookerApp extends React.Component {
             <CookerCard tournamentId={this.state.tournamentId} activePageEvent={this.handleStatePageClick} cookerId={this.state.cookerId} loggedCookerId={this.state.loggedCookerId} />,
             <CookersTable tournamentId={this.state.tournamentId} activePageEvent={this.handleStatePageClick} allScore={true} loggedCookerId={this.state.loggedCookerId} />,
             <CookersVoterTable activePageEvent={this.handleStatePageClick} loggedCookerId={this.state.loggedCookerId} />,
-            <CookersScoreForm tournamentId={this.state.tournamentId} activePageEvent={this.handleStatePageClick} cookerId={this.state.cookerId} loggedCookerId={this.state.loggedCookerId} />
+            <CookerScoreForm tournamentId={this.state.tournamentId} activePageEvent={this.handleStatePageClick} cookerId={this.state.cookerId} loggedCookerId={this.state.loggedCookerId} />
         ];
         console.info("pag: " + this.state.idPage);
         return pages[this.state.idPage];

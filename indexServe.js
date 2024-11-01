@@ -1,5 +1,3 @@
-'use strict';
-
 const app = require('./app')
 const app2 = require('./appUploadFile')
 const config = require('./configDomain');
