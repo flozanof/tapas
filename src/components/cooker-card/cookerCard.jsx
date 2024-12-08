@@ -127,7 +127,10 @@ const CookerCard = (props) => {
                         <Box>
                             <CourseCard
                                 imageId={photo.id}
-                                avatarImage={props.tournamentId + '/' + photo.uriImage}
+//                                avatarImage={props.tournamentId + '/' + photo.uriImage}
+                                avatarImage={`data:image/jpg;base64,${photo.base64Image}`}
+                                tournamentId={props.tournamentId}
+                                mediaName={photo.uriImage}
                                 visible={photo.visible}
                                 canEdit={(props.loggedCookerId === props.cookerId)}
                                 deleteEvent={handleDeleteImgClick}

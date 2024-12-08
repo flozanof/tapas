@@ -27,6 +27,7 @@ const CourseCard = (props) => {
 
     // Guardamos nombre del fichero que se ha subido al servidor en base de datos.
     const updateVisibility = (visible) => {
+        console.log('IMAGEN BASE64: ' + props.avatarImage);
         console.log(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + process.env.REACT_APP_API_VOTE_COURSES_IMG + '/' + props.imageId + '/visible/' + visible);
         // POST request using fetch with error handling
         const requestOptions = {
@@ -75,22 +76,24 @@ const CourseCard = (props) => {
 
     return (
         <Card>
-            {(props.avatarImage.indexOf("mp4") === -1) &&
+            {(props.mediaName.indexOf("mp") === -1) &&
                 <div>
                     <CardMedia
                         component="img"
                         height="200"
-                        image={process.env.REACT_APP_PUBLIC_IMG +`${props.avatarImage}`}
+                        //image={process.env.REACT_APP_PUBLIC_IMG +`${props.avatarImage}`}
+                        src={`${props.avatarImage}`}
                         alt={props.avatarName}
                     />
                 </div>
             }
-            {(props.avatarImage.indexOf("mp4") !== -1) &&
+            {(props.mediaName.indexOf("mp") !== -1) &&
                 <div>
                     <CardMedia
                         component="video"
                         height="200"
-                        image={process.env.REACT_APP_PUBLIC_IMG +`${props.avatarImage}`}
+//                        image={process.env.REACT_APP_PUBLIC_IMG +`${props.avatarImage}`}
+                        src={process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_MEDIA +  `/${props.tournamentId}` + process.env.REACT_APP_API_MEDIA_VIDEO + `/${props.mediaName}`}
                         title='title'
                         controls
                     />
