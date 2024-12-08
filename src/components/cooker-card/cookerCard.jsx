@@ -136,7 +136,8 @@ const CookerCard = (props) => {
                                 updateOrderImageStatus={updateOrderImageStatus}
                             />
                         </Box>
-                    </Grid>)
+                    </Grid>
+                )
             )
         }
     };

@@ -1,5 +1,3 @@
-'use strict';
-
 const express = require('express');
 const appUploadFile = express();
 const routes = require('./routesUpFile.js');

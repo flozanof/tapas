@@ -1,41 +1,32 @@
-# Ejecutar aplicación
+# DOCUMENTACIÓN TÉCNICA
+
+## APLICACIÓN - CONFIGURACIÓN
+
+### Ejecutar aplicación
+
 - Directorio tapas: Ejecutar npm start
 - Directorio tapas: Ejecutar node .\src\servers\index.js
 - Levantar servidor java: Proyectos\Paco\votacion
 
-# Configuración
+### Configuración
+
 - CookerApp: en el estado asignar tournamentId
 - Crear la carpeta /public/img/{tournamentId}
-- En http://localhost:8081/h2-console/login.do (user1, pass1) insertar en tabla COOKER y SCORE.
+- En <http://localhost:8081/h2-console/login.do> (user1, pass1) insertar en tabla COOKER y SCORE.
 
-# Api mocks. Mocks Service Worker (MSW)
+### Deploy Servidores
 
-## Instalación librería MSW
-npm install msw --save-dev
-## Creación fichero mock para peticiones REST
-fichero src/cookers
-## Integrarar mocks. Copiar fichero en el directorio public
-Navegar hasta el directorio donde está package.json y lanzar el comando:
-
-npx msw init <PUBLIC_DIR>
-## Configurar worker
-Fichero mockServiceWorkers.js
-
-## Activar mocks
-Fichero index.js
-Descomentar las líneas:
-const { worker } = require('./mocks/browser')
-worker.start()
-
-# Deploy
 npm run build
 serve -s build
 
-## Configuración express para configurar servidor
+### Configuración express para configurar servidor
+
 npm install express --save
 
-## Configuración express para tener varios servidores
+### Configuración express para tener varios servidores
+
 Ver ficheros:
+
 - app.js (servidor 1)
 - appUploadFile.js (servidor 2)
 - configDomain.js (servidor 1)
@@ -46,18 +37,7 @@ Ver ficheros:
 
 Ejecutar: node .\src\servers\index.js
 
-
-# Instalación Material-UI
-npm install @mui/material @emotion/react @emotion/styled
-
-# Material icons
-npm install @mui/icons-material
-
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
+## RUN APPLICATION - AVAILABLE SCRIPTS
 
 In the project directory, you can run:
 
@@ -94,68 +74,118 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+### Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+#### Code Splitting
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+#### Analyzing the Bundle Size
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
+#### Making a Progressive Web App
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
+#### Advanced Configuration
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+#### Deployment
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
+#### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-# Configuración servidor para que usuarios puedan subir imágenes a /public
-https://programmingwithmosh.com/javascript/react-file-upload-proper-server-side-nodejs-easy/
+## APLICACIÓN - SERVIDOR IMÁGENES
 
-## Install and import Axios for AJAX request
+### Configuración servidor para que usuarios puedan subir imágenes a /public
+
+<https://programmingwithmosh.com/javascript/react-file-upload-proper-server-side-nodejs-easy/>
+
+### Install and import Axios for AJAX request
+
 import axios from 'axios';
 
-# Create a simple server with Node.
+### Create a simple server with Node
+
 Servidor que subirá las imágenes/videos desde directorio local a directorio /public/uploads
 
-## Install express, multer, and cors.
+#### Install express, multer, and cors
 
 npm i express multer cors nodemon -save
 
 We'll use express to create a server, multer to handle files. Cors will be used to enable cross-origin request to this server. Nodemon to monitor the changes and auto-reload, it is optional and you'll have to restart the server manually in its absence.
 
-## Ejecución del servidor
+#### Ejecución del servidor
 
 run node .\src\servers\index.js
 
-# Instalar toastify para visualizar mensajes
+### Instalar toastify para visualizar mensajes
+
 npm install --save react-toastify
 
+### Deploy servidor imágenes
 
-# Deploy
 - npm run build : genera carpeta /build con todos los ficheros necesarios para el deploy. Ver comentarios sobre deploy de este comando.
 
 - Ejecutar:
-    - npm install -g serve
-    - serve -s build
+  - npm install -g serve
+  - serve -s build
 
-## Deploy en github
-https://create-react-app.dev/docs/deployment/
+## Deploy aplicación en github
+
+<https://create-react-app.dev/docs/deployment/>
 
 - Deploy: npm run deploy
-- url: https://flozanof.github.io/tapas/
+- url: <https://flozanof.github.io/tapas/>
+
+## APLICACIÓN TESTS
+
+### Api mocks. Mocks Service Worker (MSW)
+
+### Instalación librería MSW
+
+npm install msw --save-dev
+
+### Creación fichero mock para peticiones REST
+
+fichero src/cookers
+
+### Integrarar mocks. Copiar fichero en el directorio public
+
+Navegar hasta el directorio donde está package.json y lanzar el comando:
+
+npx msw init <PUBLIC_DIR>
+
+### Configurar worker
+
+Fichero mockServiceWorkers.js
+
+### Activar mocks
+
+Fichero index.js
+Descomentar las líneas:
+const { worker } = require('./mocks/browser')
+worker.start()
+
+## APLICACIÓN - LIBRERÍAS
+
+### Instalación Material-UI
+
+npm install @mui/material @emotion/react @emotion/styled
+
+### Material icons
+
+npm install @mui/icons-material
+
+### Getting Started with Create React App
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
