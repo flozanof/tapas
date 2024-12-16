@@ -39,29 +39,6 @@ const CookerCard = (props) => {
     }, [props.cookerId]);
 
     // Subimos imagen del plato al servidor. Luego hay que guardar nombre del fichero en bbdd.
-/**
-    React.useEffect(() => {
-        if (selectedImage) {
-            setImageUrl(URL.createObjectURL(selectedImage));
-            const data = new FormData()
-            data.append('file', selectedImage)
-            const requestOptions = {
-                method: 'POST',
-                //Si lo pongo no funciona.            headers: { 'Content-Type': 'multipart/form-data' },
-                body: data
-            };
-            fetch('http://localhost:8000/upload/' + props.tournamentId + '/', requestOptions)
-                .then((res) => res.text())
-                .then((res) => {
-                    toast.success('Upload Success');
-                    setFileUploaded(res);
-                })
-                .catch(err => {
-                    toast.error('Upload Fail')
-                });
-        }
-    }, [selectedImage, props.tournamentId]);
- */
     React.useEffect(() => {
         if (selectedImage) {
             setImageUrl(URL.createObjectURL(selectedImage));
@@ -72,47 +49,32 @@ const CookerCard = (props) => {
                 //Si lo pongo no funciona.            headers: { 'Content-Type': 'multipart/form-data' },
                 body: data
             };
-            console.log('llamada a: ' + process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + '/' + cooker.id + '/images/upload');
-            fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + '/' + props.tournamentId  + '/' + cooker.id + '/images/upload', requestOptions)
-                .then((res) => res.text())
-                .then((res) => {
-                    if ("OK" === res) {
-                        toast.success("Upload File OK");
+            console.log('llamada a: ' + process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + '/' + cooker.id + process.env.REACT_APP_API_VOTE_COURSES_TOURNAMENTS + '/' + props.tournamentId  + process.env.REACT_APP_API_VOTE_COURSES_IMG);
+            fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + '/' + cooker.id + process.env.REACT_APP_API_VOTE_COURSES_TOURNAMENTS + '/' + props.tournamentId  + process.env.REACT_APP_API_VOTE_COURSES_IMG, requestOptions)
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
                     } else {
-                        toast.error(res)
+                        toast.error('Upload Fail. Tamaño máx foto: 10MB')
+                        return null
+                    }
+                      
+                })
+                .then((courseImg) => {
+                    if (courseImg) {
+                        toast.success("Upload File OK");
+                        setSelectedImage(null);
+                        setCooker(oldCooker => ({ ...oldCooker, coursePhotos: [...cooker.coursePhotos.concat(courseImg)] }));
                     }
                 })
                 .catch(err => {
-                    console.log("error: " + err);
+                    alert(err);
+                    console.log(err); 
                     toast.error('Upload Fail: ' + err.text)
-                });
+                    return err;
+                    });
         }
     }, [selectedImage, props.tournamentId, cooker]);
-
-/** 
-// Subimos imagen y guardamos en base de datos al mismo tiempo.
-    // Guardamos nombre del fichero que se ha subido al servidor en base de datos.
-    React.useEffect(() => {
-        if (fileUploaded != null) {
-            const requestOptions = {
-                method: 'POST',
-                headers: { 'enctype': 'multipart/form-data' },
-                body: JSON.stringify({ 'imageNames': [fileUploaded] })
-            };
-            fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + '/' + cooker.id + process.env.REACT_APP_API_VOTE_COURSES_IMG, requestOptions)
-                .then((response) => {
-                    if (response.ok) {
-                        toast.success('Image Save Success');
-                    } else {
-                        toast.error('Image Save Fail ' || response.status)
-                    }
-                })
-                .catch(err => {
-                    toast.error('Image Save Fail')
-                });
-        }
-    }, [fileUploaded, cooker]);
- */    
 
     const handleDeleteImgClick = (photoId) => {
         setCooker(oldCooker => ({ ...oldCooker, coursePhotos: [...cooker.coursePhotos.filter(p => p.id !== photoId)] }));
@@ -122,20 +84,22 @@ const CookerCard = (props) => {
         if (cooker != null) {
             return (
                 cooker.coursePhotos != null &&
-                cooker.coursePhotos.filter(p => (props.loggedCookerId === props.cookerId) || p.visible).map((photo) =>
+                cooker.coursePhotos.filter(p => (props.loggedCookerId === props.cookerId) || p.visible).map((photo, index) =>
                     <Grid key={photo.id} item xs={12} sm={6} md={4} lg={2} xl={2}>
                         <Box>
                             <CourseCard
-                                imageId={photo.id}
-//                                avatarImage={props.tournamentId + '/' + photo.uriImage}
-                                avatarImage={`data:image/jpg;base64,${photo.base64Image}`}
                                 tournamentId={props.tournamentId}
+                                courseId={cooker.courseId}
+                                imageId={photo.id}
+                                mediaType={photo.mediaType}
+                                avatarImage={`data:image/jpg;base64,${photo.base64Image}`}
                                 mediaName={photo.uriImage}
                                 visible={photo.visible}
                                 canEdit={(props.loggedCookerId === props.cookerId)}
                                 deleteEvent={handleDeleteImgClick}
                                 order={photo.order}
                                 maxOrder={cooker.coursePhotos.length}
+                                orderPosition={index}
                                 updateOrderImageStatus={updateOrderImageStatus}
                             />
                         </Box>
@@ -273,12 +237,6 @@ const CookerCard = (props) => {
                         </Button>
                     </label>
                 }
-                {imageUrl && selectedImage && (
-                    <Box mt={2} textAlign="center">
-                        <div>Image Preview:</div>
-                        <img src={imageUrl} alt={selectedImage.name} height="100px" />
-                    </Box>
-                )}
             </div>
         )
     }
@@ -293,7 +251,7 @@ const CookerCard = (props) => {
                             <CookerAvatar
                                 tournamentId={props.tournamentId}
                                 avatarId={props.cookerId}
-                                avatarImage={props.tournamentId + '/' + cooker.cookerPhoto}
+                                avatarImage={`data:image/jpg;base64,${cooker.base64Image}`}
                                 avatarName={cooker.name}
                                 scoreEvent={getScoreEvent()}
                                 canEdit={(props.loggedCookerId === props.cookerId)}
@@ -415,6 +373,16 @@ const CookerCard = (props) => {
                     {boxUploadImageVideo("IMG")}
                     {boxUploadImageVideo("VIDEO")}
                 </Box>
+                {imageUrl && selectedImage && (
+                    <div>
+                    <Box display="flex" sx={{ p: "20px" }} textAlign="left">
+                        <div>Image Preview:</div>
+                    </Box>
+                    <Box display="flex" sx={{ p: "20px" }} >
+                    <img src={imageUrl} alt={selectedImage.name} height="100px" />
+                    </Box>
+                    </div>
+                )}
             </div >
         )
     } else {

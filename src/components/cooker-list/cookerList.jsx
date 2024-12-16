@@ -34,7 +34,7 @@ const CookerList = (props) => {
                         avatarId={cooker.id}
                         avatarTitle={cooker.name}
                         cookerImage={(props.tournamentId + '/' + cooker.cookerPhoto)}
-                        avatarImage={(cooker.coursePhotos == null) ? 'noImage.jpeg' : props.tournamentId + '/' + cooker.coursePhotos[0].uriImage}
+                        avatarImage={((cooker.coursePhotos == null) || (!cooker.coursePhotos[0].visible) ) ? null : `data:image/jpg;base64,${cooker.coursePhotos[0].base64Image}`}
                         avatarName={cooker.course}
                         cardEvent={props.activePageEvent}
                         scoreEvent={getScoreEvent(cooker.id)}

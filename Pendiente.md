@@ -19,7 +19,6 @@
 
 ## Hacer ahora
 
-- Probar que se borran las imágenes de los platos en bbdd y en el directorio upload.
-- Tener en cuenta el tipo de media (IMG, VIDEO) y controlarlo en la aplicación.
-- Subir y borrar imagen de perfil de los cocineros.
+- Restringir el tamaña de las imágenes y vídeos que se suben. Ya están en application.properties.
+  - Lo que hay que mostrar un error legible cuando el tamaño es superior al esperado.
 - Quitar imágenes de upload que no se usen.

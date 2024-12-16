@@ -21,46 +21,23 @@ const MyCardContentNoPadding = styled(CardContent)(`
 
 const CookerAvatar = (props) => {
     const [selectedImage, setSelectedImage] = React.useState(null);
-    const [fileUploaded, setFileUploaded] = React.useState(null);
 
-    // Subimos imagen del plato al servidor. Luego hay que guardar nombre del fichero en bbdd.
+
+    // Subimos fichero con la imagen del cocinero.
     React.useEffect(() => {
         if (selectedImage) {
-            console.log('CookerAvatar 1: http://localhost:8000/upload/ ' + selectedImage);
-            const data = new FormData()
-            data.append('file', selectedImage)
-            const requestOptions = {
-                method: 'POST',
-                //Si lo pongo no funciona.            headers: { 'Content-Type': 'multipart/form-data' },
-                body: data
-            };
-            fetch('http://localhost:8000/upload/' + props.tournamentId, requestOptions)
-                //                .then((res) => {
-                //                    toast.success('upload success  '+ res.statusText +' ' + res.text);
-                //                })
-                .then((res) => res.text())
-                .then((res) => {
-                    toast.success('Upload Success');
-                    setFileUploaded(res);
-                })
-                .catch(err => {
-                    toast.error('Upload Fail')
-                });
-        }
-    }, [selectedImage, props.tournamentId]);
-
-    // Guardamos nombre del fichero que se ha subido al servidor en base de datos.
-    React.useEffect(() => {
-        if (fileUploaded != null) {
             console.log('**** CookerAvatar. Peticion: ' + process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COOKERS_PHOTO);
-            // POST request using fetch with error handling
+            // PUT request using fetch with error handling
+            const data = new FormData()
+            data.append('image', selectedImage);
+            data.append('cooker', JSON.stringify({
+                "id": props.avatarId,
+                "tournament" : props.tournamentId,
+                "name": props.avatarName
+            }));
             const requestOptions = {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    'id': props.avatarId,
-                    'cookerPhoto': fileUploaded,
-                })
+                body: data
             };
             fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COOKERS_PHOTO, requestOptions)
                 .then((response) => {
@@ -74,7 +51,7 @@ const CookerAvatar = (props) => {
                     toast.error('Image Save Fail')
                 });
         }
-    }, [fileUploaded, props.avatarId]);
+    }, [selectedImage, props.avatarId, props.tournamentId, props.avatarName]);
 
     return (
         <div>
@@ -84,14 +61,15 @@ const CookerAvatar = (props) => {
                         title={props.avatarTitle}
                         // subheader="September 14, 2016"
                         action={
-                            <Avatar src={process.env.REACT_APP_PUBLIC_IMG +`${props.cookerImage}`} />
+                            <Avatar src={process.env.REACT_APP_PUBLIC_IMG + `${props.cookerImage}`} />
                         }
                     />
                 }
                 <CardMedia
                     component="img"
                     height={props.cardHeight}
-                    image={process.env.REACT_APP_PUBLIC_IMG + `${props.avatarImage}`}
+                    image={props.avatarImage === null && process.env.REACT_APP_PUBLIC_IMG + 'noImage.jpeg'}
+                    src={`${props.avatarImage}`}
                     alt={props.avatarName}
                 />
                 <MyCardContentNoPadding sx={{
