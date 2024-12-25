@@ -21,4 +21,22 @@
 
 - Restringir el tamaña de las imágenes y vídeos que se suben. Ya están en application.properties.
   - Lo que hay que mostrar un error legible cuando el tamaño es superior al esperado.
-- Quitar imágenes de upload que no se usen.
+- Gestionar los torneos (tournamentsId): CRUD
+- En el menú principal (mainMenu) añadir funcionalidad botones:
+  - Añadir botón para que administrador pueda gestionar los torneos.
+  - Obligar a cambiar el password cuando se entra por primera vez.
+- Al entrar en la aplicación:
+  - Usuario normal: seleccionar el torneo al que tenga acceso que esté activo.
+  - Usuario admin: Poder crear un torneo. Seleccionar el torneo al que quiere acceder (activo o no activo).
+- Crear formularios:
+  - Alta de torneos
+  - Alte de usuarios de un torneo.
+- Cooker.user_id hace referencia a user_app.
+- Modificar User y UserDAO. Tienen acceso a una lista de torneos.
+
+- Cuando se entra en la aplicación recuperar los datos del usuario.
+- Cuando se hace login hay que mostrar lista de torneos para que seleccione uno.
+- Mirar warnings al arrancar la aplicación.
+- La lista de torneos del usuario tiene que tener asociado el cookerid del usuario en ese torneo.
+
+- Seleccionar torneo cuando se hace login.

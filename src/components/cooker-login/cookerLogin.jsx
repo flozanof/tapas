@@ -5,64 +5,40 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import SendIcon from '@mui/icons-material/Send';
+import { toast } from 'react-toastify';
+import Autocomplete from '@mui/material/Autocomplete';
+import { red } from "@mui/material/colors";
 
 const CookerLogin = (props) => {
     // React States
-    const [errorMessages, setErrorMessages] = useState({});
+    const [isReadOnly, setIsReadOnly] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [tournamentId, setTournamentId] = useState(-1);
+    const [user, setUser] = useState({});
     const [values, setValues] = React.useState({
         uname: '',
         pass: ''
-    })
+    });
 
-    // User Login info
-    const database = [
-        {
-            username: "user1",
-            password: "pass1",
-            cookerId: 1
-        },
-        {
-            username: "user2",
-            password: "pass2",
-            cookerId: 2
-        },
-        {
-            username: "user3",
-            password: "pass3",
-            cookerId: 3
-        },
-        {
-            username: "user4",
-            password: "pass4",
-            cookerId: 4
-        },
-        {
-            username: "user5",
-            password: "pass5",
-            cookerId: 5
-        },
-        {
-            username: "user6",
-            password: "pass6",
-            cookerId: 6
-        },
-        {
-            username: "user7",
-            password: "pass7",
-            cookerId: 7
-        },
-        {
-            username: "user8",
-            password: "pass8",
-            cookerId: 8
+    React.useEffect(() => {
+        if ((user.user !== undefined) || (user.txtError !== undefined)) {
+            if (user.txtError) {
+                toast.error(user.txtError);
+            } else {
+                if (user.user.tournaments.length < 2) {
+                    //todo: tiene que pasarse el id de cocinero, no el id de usuario.
+                    if (tournamentId === -1) {
+                        setIsReadOnly(true);
+
+                    } else {
+                        setIsSubmitted(true);
+                        props.activePageEvent(0, user.id);
+                    }
+                }
+                toast.success('Ususario válido.\nBienvenido al sistema.')
+            }
         }
-    ];
-
-    const errors = {
-        uname: "invalid username",
-        pass: "invalid password"
-    };
+    }, [user, props]);
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -77,54 +53,27 @@ const CookerLogin = (props) => {
 
         const { uname, pass } = values
 
-        // Find user login info
-        const userData = database.find((user) => user.username === uname);
-        // Compare user info
-        if (userData) {
-            if (userData.password !== pass) {
-                // Invalid password
-                setErrorMessages({ name: "pass", message: errors.pass });
-            } else {
-                setIsSubmitted(true);
-                props.activePageEvent(0, userData.cookerId);
-            }
-        } else {
-            // Username not found
-            setErrorMessages({ name: "uname", message: errors.uname });
-        }
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                username: uname,
+                password: pass
+            })
+        };
+
+        console.log('SUBMIT FORMULARIO LOGIN - LANZA PETICIÓN FETCH: ' + process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_USERS + process.env.REACT_APP_API_VOTE_USERS_LOGIN);
+        fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_USERS + process.env.REACT_APP_API_VOTE_USERS_LOGIN, requestOptions)
+            .then(response => response.json())
+            .then((aUser) => {
+                setUser(aUser);
+            });
+
     };
 
-    // Generate JSX code for error message
-    const renderErrorMessage = (name) =>
-        name === errorMessages.name && (
-            <Typography variant="caption" display="block" gutterBottom padding="0px 0px 0px 13px">
-                {errorMessages.message}
-            </Typography>
-        );
-
-    // JSX code for login form
-    /**
-        <div className="form">
-            <form onSubmit={handleSubmit}>
-                <div className="input-container">
-                    <label>Username </label>
-                    <input type="text" name="uname" required />
-                    {renderErrorMessage("uname")}
-                </div>
-                <div className="input-container">
-                    <label>Password </label>
-                    <input type="password" name="pass" required />
-                    {renderErrorMessage("pass")}
-                </div>
-                <div className="button-container">
-                    <input type="submit" />
-                </div>
-            </form>
-        </div>
-        */
     const renderForm = (
         <div>
-            <Grid container spacing={1} padding="50px">
+            <Grid container spacing={1} padding="50px" id="loginForm">
                 <Grid item xs={12}
                     display="flex"
                     justifyContent="center"
@@ -132,10 +81,11 @@ const CookerLogin = (props) => {
                     <Box
                         component="form"
                         sx={{
-                            '& .MuiTextField-root': { m: 1},
+                            '& .MuiTextField-root': { m: 1 },
                             boxShadow: 3,
                             maxWidth: 250,
-                            p: 2
+                            p: 2,
+                            opacity: isReadOnly ? 0.6 : 1
                         }}
                         noValidate
                         autoComplete="off"
@@ -153,34 +103,77 @@ const CookerLogin = (props) => {
                                 name="uname"
                                 value={uname}
                                 onChange={handleChange}
+                                disabled={isReadOnly}
                             />
-                            {renderErrorMessage("uname")}
                             <TextField
-                                id="outlined-number"
+                                id="outlined-number2"
                                 label="Contraseña"
                                 type="password"
                                 name="pass"
                                 value={pass}
                                 onChange={handleChange}
+                                disabled={isReadOnly}
                             />
-                            {renderErrorMessage("pass")}
                             <Box m={1}>
-                            <Button type="submit" variant="outlined" startIcon={<SendIcon />}>
-                                Enviar
-                            </Button>
+                                <Button type="submit" variant="outlined" startIcon={<SendIcon />} disabled={isReadOnly}>
+                                    Enviar
+                                </Button>
                             </Box>
                         </div>
                     </Box>
                 </Grid>
             </Grid>
+            {(user.user !== undefined) &&
+                <Grid container spacing={1} padding="0px" id="tournametGrd">
+                    <Grid item xs={12}
+                        display="flex"
+                        justifyContent="center"
+                    >
+                        <Box
+                            component="form"
+                            sx={{
+                                '& .MuiTextField-root': { m: 1 },
+                                boxShadow: 3,
+                                maxWidth: 900,
+                                p: 2
+                            }}
+                            noValidate
+                            autoComplete="off"
+                            onSubmit={handleSubmit}
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                        >
+                            <div>
+                                <Typography minWidth="500px" variant="h6" gutterBottom component="div" display="flex" justifyContent="center">Seleccione Torneo</Typography>
+                                <Autocomplete
+                                    disableClearable
+                                    options={user.user.tournaments} // Lista de opciones
+                                    getOptionLabel={(option) => option.titulo} // Muestra el campo `title` en la lista
+                                    renderInput={(params) => (
+                                        <TextField {...params} label="Torneo" variant="outlined" />
+                                    )}
+                                    onChange={(event, value) => {
+                                        if (value) {
+                                            console.log("Selected Tournament:", value); // Objeto completo seleccionado
+                                        } else {
+                                            console.log("No tournament selected");
+                                        }
+                                    }}
+                                />
+                            </div>
+                        </Box>
+                    </Grid>
+                </Grid>
+            }
         </div >
     );
 
     return (
         <div>
-                {isSubmitted
-                    ? <div>User is successfully logged in</div>
-                    : renderForm}
+            {isSubmitted
+                ? <div>User is successfully logged in</div>
+                : renderForm}
         </div>
     );
 }

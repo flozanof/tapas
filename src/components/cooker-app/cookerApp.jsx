@@ -1,5 +1,6 @@
 import '../../css/App.css';
 import * as React from 'react';
+import MainMenu from '../main-menu/mainMenu';
 import CookerLogin from '../cooker-login/cookerLogin';
 import CookerList from '../cooker-list/cookerList';
 import CookerCard from '../cooker-card/cookerCard';
@@ -34,12 +35,11 @@ class CookerApp extends React.Component {
             idPage: 0,
             cookerId: 0,
             loggedCookerId: 0,
-            tournamentId: '02-2022'
+            tournamentId: 2
         };
         this.handleLoggingClick = this.handleLoggingClick.bind(this);
         this.handleStatePageClick = this.handleStatePageClick.bind(this);
     }
-
 
     handleLoggingClick = (page, cookerId) => {
         console.log('cookerApp.js. **** LOGGING *****. cookerId: ' + cookerId + ' pageId: ' + page);
@@ -48,7 +48,11 @@ class CookerApp extends React.Component {
 
     handleStatePageClick = (page, cookerId) => {
         console.log('cookerApp.js. cookerId: ' + cookerId + ' pageId: ' + page);
-        this.setState({ idPage: page, cookerId: cookerId });
+        if (cookerId === 0) {
+            this.setState({ idPage: 0, cookerId: 0, loggedCookerId: 0 });
+        } else {
+            this.setState({ idPage: page, cookerId: cookerId });
+        }
     }
 
     getActualPage() {
@@ -76,6 +80,9 @@ class CookerApp extends React.Component {
                     <div>
                         <div>
                             <Box sx={{ flexGrow: 1, p: "15px 15px 15px 15px" }}>
+                                {
+                                    <MainMenu activePageEvent={this.handleStatePageClick} loggedCookerId={this.state.loggedCookerId}/>
+                                }
                                 {this.state.idPage !== 0 &&
                                     <Button
                                         variant="outlined"
