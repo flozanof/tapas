@@ -8,7 +8,7 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 //import PersonAdd from '@mui/icons-material/PersonAdd';
-//import Settings from '@mui/icons-material/Settings';
+import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
@@ -80,18 +80,18 @@ export default function MainMenu(props) {
         {/**<MenuItem onClick={handleClose}>
           <Avatar /> My account
         </MenuItem>*/}
+        <MenuItem onClick={() => props.activePageEvent(5, props.loggedCookerId)}>
+          <ListItemIcon>
+            <Settings fontSize="small" />
+          </ListItemIcon>
+          Torneos
+        </MenuItem>
         <Divider />
         {/**<MenuItem onClick={handleClose}>
           <ListItemIcon>
             <PersonAdd fontSize="small" />
           </ListItemIcon>
           Add another account
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
         </MenuItem>*/}
         <MenuItem onClick={() => props.activePageEvent(0, 0)}>
           <ListItemIcon>

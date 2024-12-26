@@ -39,4 +39,4 @@
 - Mirar warnings al arrancar la aplicación.
 - La lista de torneos del usuario tiene que tener asociado el cookerid del usuario en ese torneo.
 
-- Seleccionar torneo cuando se hace login.
+- En el menú principal (tres puntos vertical) poder cambiar de torneo.

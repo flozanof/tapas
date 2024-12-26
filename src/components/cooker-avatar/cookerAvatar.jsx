@@ -61,7 +61,7 @@ const CookerAvatar = (props) => {
                         title={props.avatarTitle}
                         // subheader="September 14, 2016"
                         action={
-                            <Avatar src={process.env.REACT_APP_PUBLIC_IMG + `${props.cookerImage}`} />
+                            <Avatar src={`${props.cookerImage}`} />
                         }
                     />
                 }

@@ -1,5 +1,5 @@
 import '../../css/App.css';
-import * as React from 'react';
+import React, { useState } from "react";
 import MainMenu from '../main-menu/mainMenu';
 import CookerLogin from '../cooker-login/cookerLogin';
 import CookerList from '../cooker-list/cookerList';
@@ -28,98 +28,94 @@ function Copyright() {
     );
 }
 
-class CookerApp extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            idPage: 0,
-            cookerId: 0,
-            loggedCookerId: 0,
-            tournamentId: 2
-        };
-        this.handleLoggingClick = this.handleLoggingClick.bind(this);
-        this.handleStatePageClick = this.handleStatePageClick.bind(this);
+const CookerApp = () => {
+    const [idPage, setIdPage] = useState(0);
+    const [cookerId, setCookerId] = useState(0);
+    const [loggedCookerId, setLoggedCookerId] = useState(0);
+    const [tournamentId, setTournamentId] = useState(-1);
+
+    const handleLoggingClick = (cookerId, idTournament) => {
+        console.log('cookerApp.js. **** LOGGING *****. cookerId: ' + cookerId + ' tournamentId: ' + idTournament);
+        setIdPage(0);
+        setLoggedCookerId(cookerId);
+        setTournamentId(idTournament);
     }
 
-    handleLoggingClick = (page, cookerId) => {
-        console.log('cookerApp.js. **** LOGGING *****. cookerId: ' + cookerId + ' pageId: ' + page);
-        this.setState({ idPage: page, loggedCookerId: cookerId });
-    }
-
-    handleStatePageClick = (page, cookerId) => {
+    const handleStatePageClick = (page, cookerId) => {
         console.log('cookerApp.js. cookerId: ' + cookerId + ' pageId: ' + page);
         if (cookerId === 0) {
-            this.setState({ idPage: 0, cookerId: 0, loggedCookerId: 0 });
+            setIdPage(0);
+            setCookerId(0);
+            setLoggedCookerId(0);
         } else {
-            this.setState({ idPage: page, cookerId: cookerId });
+            setIdPage(page);
+            setCookerId(cookerId);
         }
     }
 
-    getActualPage() {
+    const getActualPage = () => {
         const pages = [
-            <CookerList tournamentId={this.state.tournamentId} activePageEvent={this.handleStatePageClick} loggedCookerId={this.state.loggedCookerId} />,
-            <CookerCard tournamentId={this.state.tournamentId} activePageEvent={this.handleStatePageClick} cookerId={this.state.cookerId} loggedCookerId={this.state.loggedCookerId} />,
-            <CookersTable tournamentId={this.state.tournamentId} activePageEvent={this.handleStatePageClick} allScore={true} loggedCookerId={this.state.loggedCookerId} />,
-            <CookersVoterTable activePageEvent={this.handleStatePageClick} loggedCookerId={this.state.loggedCookerId} />,
-            <CookerScoreForm tournamentId={this.state.tournamentId} activePageEvent={this.handleStatePageClick} cookerId={this.state.cookerId} loggedCookerId={this.state.loggedCookerId} />
+            <CookerList tournamentId={tournamentId} activePageEvent={handleStatePageClick} loggedCookerId={loggedCookerId} />,
+            <CookerCard tournamentId={tournamentId} activePageEvent={handleStatePageClick} cookerId={cookerId} loggedCookerId={loggedCookerId} />,
+            <CookersTable tournamentId={tournamentId} activePageEvent={handleStatePageClick} allScore={true} loggedCookerId={loggedCookerId} />,
+            <CookersVoterTable activePageEvent={handleStatePageClick} loggedCookerId={loggedCookerId} />,
+            <CookerScoreForm tournamentId={tournamentId} activePageEvent={handleStatePageClick} cookerId={cookerId} loggedCookerId={loggedCookerId} />
         ];
-        console.info("pag: " + this.state.idPage);
-        return pages[this.state.idPage];
+        console.info("pag: " + idPage);
+        return pages[idPage];
     }
 
-    render() {
-        return (
+    return (
+        <div>
             <div>
-                <div>
-                    <ToastContainer />
-                </div>
-
-                {this.state.loggedCookerId === 0
-                    ? < CookerLogin activePageEvent={this.handleLoggingClick} />
-                    :
-                    <div>
-                        <div>
-                            <Box sx={{ flexGrow: 1, p: "15px 15px 15px 15px" }}>
-                                {
-                                    <MainMenu activePageEvent={this.handleStatePageClick} loggedCookerId={this.state.loggedCookerId}/>
-                                }
-                                {this.state.idPage !== 0 &&
-                                    <Button
-                                        variant="outlined"
-                                        sx={{ flexGrow: 1, m: 2 }}
-                                        startIcon={<HomeIcon />}
-                                        onClick={() => this.handleStatePageClick(0, this.state.loggedCookerId)}
-                                    >
-                                        Home
-                                    </Button>
-                                }
-                                {this.state.idPage !== 2 &&
-                                    <Button
-                                        variant="outlined"
-                                        sx={{ flexGrow: 1, m: 1 }}
-                                        onClick={() => this.handleStatePageClick(2, this.state.loggedCookerId)}
-                                    >
-                                        Resultados
-                                    </Button>
-                                }
-                                {this.state.idPage !== 3 &&
-                                    <Button
-                                        variant="outlined"
-                                        sx={{ flexGrow: 1, m: 1 }}
-                                        onClick={() => this.handleStatePageClick(3, this.state.loggedCookerId)}
-                                    >
-                                        Mis Puntuaciones
-                                    </Button>
-                                }
-                            </Box>
-                        </div>
-                        {this.getActualPage()}
-                    </div>
-                }
-                <Copyright />
+                <ToastContainer />
             </div>
-        )
-    }
+
+            {((loggedCookerId === 0) || (idPage === -1))
+                ? < CookerLogin loginEvent={handleLoggingClick} />
+                :
+                <div>
+                    <div>
+                        <Box sx={{ flexGrow: 1, p: "15px 15px 15px 15px" }}>
+                            {
+                                <MainMenu activePageEvent={handleStatePageClick} loggedCookerId={loggedCookerId} />
+                            }
+                            {idPage !== 0 &&
+                                <Button
+                                    variant="outlined"
+                                    sx={{ flexGrow: 1, m: 2 }}
+                                    startIcon={<HomeIcon />}
+                                    onClick={() => handleStatePageClick(0, loggedCookerId)}
+                                >
+                                    Home
+                                </Button>
+                            }
+                            {idPage !== 2 &&
+                                <Button
+                                    variant="outlined"
+                                    sx={{ flexGrow: 1, m: 1 }}
+                                    onClick={() => handleStatePageClick(2, loggedCookerId)}
+                                >
+                                    Resultados
+                                </Button>
+                            }
+                            {idPage !== 3 &&
+                                <Button
+                                    variant="outlined"
+                                    sx={{ flexGrow: 1, m: 1 }}
+                                    onClick={() => handleStatePageClick(3, loggedCookerId)}
+                                >
+                                    Mis Puntuaciones
+                                </Button>
+                            }
+                        </Box>
+                    </div>
+                    {getActualPage()}
+                </div>
+            }
+            <Copyright />
+        </div>
+    )
 }
 
 export default CookerApp

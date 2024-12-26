@@ -168,14 +168,14 @@ const CookerScoreForm = (props) => {
 
                     <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
                         <CookerAvatar
-                            avatarImage={props.tournamentId + '/' + scoreCooker.cookerPhoto}
+                            avatarImage={`data:image/jpg;base64,${scoreCooker.cookerBase64Image}`}
                             avatarName={scoreCooker.name}
                         />
                     </Grid>
                     <Grid item xs={12} sm={12} md={4} lg={4} xl={4}
                         display="flex"
                         justifyContent="center"
-                >
+                    >
                         <Box
                             component="form"
                             sx={{
@@ -252,7 +252,7 @@ const CookerScoreForm = (props) => {
                     </Grid>
                     <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
                         <CookerAvatar
-                            avatarImage={(scoreCooker.coursePhoto == null) ? 'noImage.jpeg' : props.tournamentId + '/' + scoreCooker.coursePhoto}
+                            avatarImage={`data:image/jpg;base64,${scoreCooker.courseBase64Image}`}
                             avatarName={scoreCooker.courseName}
                         />
                     </Grid>
