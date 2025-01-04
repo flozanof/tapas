@@ -6,152 +6,153 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import SendIcon from '@mui/icons-material/Send';
 import { toast } from 'react-toastify';
+import SelectTournament from "../tournament/selectTournament";
 
 const CookerChangeUser = (props) => {
+    const [isChanged, setIsChanged] = useState(false);
+    const [errorMessages, setErrorMessages] = useState({});
     const [values, setValues] = React.useState({
-        uname: '',
         username: '',
         pass: ''
     })
 
-    React.useEffect(() => {
-        fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_SCORES_USERS + '/' + props.userId)
-            .then(response => response.json())
-            .then((aScoreCooker) => {
-                setScoreCooker(aScoreCooker);
-                setValues(aScoreCooker.score);
-            });
-    }, [props.userId]);
-    
+
     const handleChange = (e) => {
         const { name, value } = e.target
         setValues({ ...values, [name]: value })
     }
 
-    const { uname, username, pass } = values
+    const { username, pass } = values
 
+    //todo: Hay que enviar las credenciales al servidor.
+    // Modificar de credenciales en servidor
     const handleSubmit = (event) => {
-        event.preventDefault()
-        console.log('***** ENTRA EN HANDLE SUBMIT **********');
-
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                id: props.Cooker.id,
-                username: event.username,
-                password: event.password,
-                name: event.name
-            })
-        };
-        fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_SCORES_COOKERS + '/' + props.loggedCookerId, requestOptions)
-            .then(response => {
-                const data = response.json();
-
-                if (!response.ok) {
-                    const error = (data && data.message) || response.status;
-                    return Promise.reject(error);
-                }
-
-                toast.success('Modificación datos usuario correcto.');
-            })
-            .catch(error => {
-                toast.error('Error en la modificación de los datos de usuario.', error);
-            });
         //Prevent page reload
-//        event.preventDefault();
+        event.preventDefault();
 
-//        const { username, pass } = values
+        var error = false;
 
-//        const userData = database.find((user) => user.username === username);
-//        if (userData) {
-//            if (userData.password !== pass) {
-//                setErrorMessages({ name: "pass", message: errors.pass });
-//            } else {
-//                setIsSubmitted(true);
-//                props.activePageEvent(0, userData.cookerId);
-//            }
-//        } else {
-//            setErrorMessages({ name: "username", message: errors.username });
-//        }
+        const { username, pass } = values
+
+        if (pass.toLowerCase().startsWith("pass")) {
+            console.log("ERROR PASSWORD");
+            setErrorMessages({ name: "pass", message: errors.pass });
+            error = true;
+        }
+
+        if ((username.toLowerCase().startsWith("user")) || (username === pass)) {
+            setErrorMessages({ name: "username", message: errors.username });
+            error = true;
+        }
+
+        if (!error) {
+            setErrorMessages({});
+
+            const requestOptions = {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id: props.user.id,
+                    name: props.user.name,
+                    username: username,
+                    password: pass
+                })
+            };
+            console.log("USER JSON " + requestOptions.body);
+
+            console.log('SUBMIT FORMULARIO CHANGE CREDENTIALS USER - LANZA PETICIÓN FETCH: ' + process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_USERS + process.env.REACT_APP_API_VOTE_USERS_LOGIN);
+            fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_USERS, requestOptions)
+                .then(response => response.json())
+                .then((aUser) => {
+                    if ((aUser.user !== undefined) && (aUser.txtError === undefined)) {
+                        toast.success("Cambio de usuario/password correcto.");
+                        props.changeStateUserEvent(aUser.user)
+                        if (props.pageReturn !== undefined) {
+                            props.loginEvent(-1, -1, props.pageReturn);
+                        }
+                        setIsChanged(true);
+                    } else {
+                        toast.error((aUser.txtError === undefined) ? "Error actualización credenciales" :  "Error: " + aUser.txtError);
+                    }
+                });
+        }
+    };
+
+    const errors = {
+        username: `Usuario invalido.\n No puede empezar por 'user' ni ser igual al password.`,
+        pass: "Password invalido.\n No puede empezar por 'pass' ni ser igual al username."
     };
 
     // Generate JSX code for error message
     const renderErrorMessage = (name) =>
         name === errorMessages.name && (
-            <Typography variant="caption" display="block" gutterBottom padding="0px 0px 0px 13px">
+            <Typography variant="caption" display="block" gutterBottom padding="0px 0px 0px 13px" style={{ whiteSpace: "pre-line" }}>
                 {errorMessages.message}
             </Typography>
         );
 
     const renderForm = (
         <div>
-            <Grid container spacing={1} padding="50px">
-                <Grid item xs={12}
-                    display="flex"
-                    justifyContent="center"
-                >
-                    <Box
-                        component="form"
-                        sx={{
-                            '& .MuiTextField-root': { m: 1},
-                            boxShadow: 3,
-                            maxWidth: 250,
-                            p: 2
-                        }}
-                        noValidate
-                        autoComplete="off"
-                        onSubmit={handleSubmit}
+            {(!isChanged)
+                ?
+                <Grid container spacing={1} padding="50px">
+                    <Grid item xs={12}
                         display="flex"
-                        alignItems="center"
                         justifyContent="center"
                     >
-                        <div>
-                            <Typography variant="h6" gutterBottom component="div" display="flex" justifyContent="center">Cambio usuario y/o contraseña</Typography>
-                            <TextField
-                                id="outlined-number"
-                                label="Nuevo Nombre"
-                                type="text"
-                                name="uname"
-                                value={uname}
-                                onChange={handleChange}
-                            />
-                            {renderErrorMessage("uname")}
-                            <TextField
-                                id="outlined-number"
-                                label="Nuevo Usuario"
-                                type="text"
-                                name="username"
-                                value={username}
-                                onChange={handleChange}
-                            />
-                            {renderErrorMessage("username")}
-                            <TextField
-                                id="outlined-number"
-                                label="Nueva Contraseña"
-                                type="password"
-                                name="pass"
-                                value={pass}
-                                onChange={handleChange}
-                            />
-                            {renderErrorMessage("pass")}
-                            <Box m={1}>
-                            <Button type="submit" variant="outlined" startIcon={<SendIcon />}>
-                                Enviar
-                            </Button>
-                            </Box>
-                        </div>
-                    </Box>
+                        <Box
+                            component="form"
+                            sx={{
+                                '& .MuiTextField-root': { m: 1 },
+                                boxShadow: 3,
+                                maxWidth: 350,
+                                p: 2
+                            }}
+                            noValidate
+                            autoComplete="off"
+                            onSubmit={handleSubmit}
+                            display="block"
+                            alignItems="center"
+                            justifyContent="center"
+                        >
+                            <div>
+                                <Typography variant="h6" gutterBottom component="div" display="flex" justifyContent="center">Cambio credenciales</Typography>
+                                <TextField
+                                    id="username"
+                                    label="Nuevo Usuario"
+                                    type="text"
+                                    name="username"
+                                    value={username}
+                                    onChange={handleChange}
+                                />
+                                {renderErrorMessage("username")}
+                                <TextField
+                                    id="pass"
+                                    label="Nueva Contraseña"
+                                    type="password"
+                                    name="pass"
+                                    value={pass}
+                                    onChange={handleChange}
+                                />
+                                {renderErrorMessage("pass")}
+                                <Box m={1}>
+                                    <Button type="submit" variant="outlined" startIcon={<SendIcon />}>
+                                        Enviar
+                                    </Button>
+                                </Box>
+                            </div>
+                        </Box>
+                    </Grid>
                 </Grid>
-            </Grid>
+                :
+                <SelectTournament user={props.user} loginEvent={props.loginEvent} />
+            }
         </div >
     );
 
     return (
         <div>
-                {isSubmitted
-                    ? <div>User is successfully logged in</div>
-                    : renderForm}
+            {renderForm}
         </div>
     );
 }

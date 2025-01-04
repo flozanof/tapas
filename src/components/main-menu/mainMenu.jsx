@@ -11,6 +11,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { ChangeCircle } from '@mui/icons-material';
 
 export default function MainMenu(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -22,9 +23,9 @@ export default function MainMenu(props) {
     setAnchorEl(null);
   };
   return (
-    <div style = {{display: 'inline-flex', align: 'right'}} >
+    <div style={{ display: 'inline-flex', align: 'right' }} >
       <Box>
-        <Tooltip title="Account settings">
+        <Tooltip title="Configuración">
           <IconButton
             onClick={handleClick}
             size="small"
@@ -75,16 +76,24 @@ export default function MainMenu(props) {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem onClick={() => props.activePageEvent(1, props.loggedCookerId)} >
-          <Avatar /> Profile
+          <Avatar /> Usuario
         </MenuItem>
         {/**<MenuItem onClick={handleClose}>
           <Avatar /> My account
         </MenuItem>*/}
-        <MenuItem onClick={() => props.activePageEvent(5, props.loggedCookerId)}>
+        {props.tournamentVisible &&
+          <MenuItem onClick={() => props.activePageEvent(5, props.loggedCookerId)}>
+            <ListItemIcon>
+              <ChangeCircle fontSize="small" />
+            </ListItemIcon>
+            Torneos
+          </MenuItem>
+        }
+        <MenuItem onClick={() => props.activePageEvent(6, props.loggedCookerId)}>
           <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>
-          Torneos
+          Credenciales
         </MenuItem>
         <Divider />
         {/**<MenuItem onClick={handleClose}>

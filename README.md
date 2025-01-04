@@ -1,5 +1,20 @@
 # DOCUMENTACIÓN TÉCNICA
 
+## GESTIÓN USUARIOS / TORNEOS
+
+### Alta ususario
+
+Cuando se da de alta un usuario el username tiene que empezar por "user" y el password por "pass". ESto hará que se reconozca que no ha cambiado el usuario ni password y se le reenvíe a un formulario para que lo cambie.
+
+### Nuevo torneo
+
+Hay que crear los directorios en la carpeta "uploads" con el id del torneo.
+
+### Elementos a puntuar
+
+Tabla SCORE.
+Rellenar lo que se va a puntuar y el peso dentro del resultado final.
+
 ## APLICACIÓN - CONFIGURACIÓN
 
 ### Ejecutar aplicación

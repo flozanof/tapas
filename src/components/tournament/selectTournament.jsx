@@ -8,11 +8,12 @@ import TextField from '@mui/material/TextField';
 const SelectTournament = (props) => {
 
     const handleSelectedTournament = (tournamentId) => {
+        console.log("ENTRA EN SELECCIÓN DE TORNEOS");
         fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COOKERS + process.env.REACT_APP_API_VOTE_USERS + "/" + props.user.id +
             process.env.REACT_APP_API_VOTE_COURSES_TOURNAMENTS + "/" + tournamentId)
             .then(response => response.json())
             .then((aCooker) => {
-                props.loginEvent(aCooker.id, tournamentId);
+                props.loginEvent(aCooker.id, tournamentId, 0);
             });
     };
 
@@ -20,7 +21,7 @@ const SelectTournament = (props) => {
         (props.user.tournaments.length < 2)
             ? handleSelectedTournament(props.user.tournaments[0].id)
             :
-            <Grid container spacing={1} padding="0px" id="tournametGrd">
+            <Grid container spacing={1} padding="10px" id="tournametGrd">
                 <Grid item xs={12}
                     display="flex"
                     justifyContent="center"

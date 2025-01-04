@@ -34,9 +34,11 @@
 - Cooker.user_id hace referencia a user_app.
 - Modificar User y UserDAO. Tienen acceso a una lista de torneos.
 
-- Cuando se entra en la aplicación recuperar los datos del usuario.
-- Cuando se hace login hay que mostrar lista de torneos para que seleccione uno.
-- Mirar warnings al arrancar la aplicación.
-- La lista de torneos del usuario tiene que tener asociado el cookerid del usuario en ese torneo.
+- Poder cambiar credenciales de usuario. Si usuario o password es el mismo obligar a cambiarlo.
 
-- En el menú principal (tres puntos vertical) poder cambiar de torneo.
+- En la parte de "Resultados" mirar si se puede poner una media, es decir, el total que tiene dividido por el número de cocineros que le han votado.
+
+- La inserción en COOKER_SCORE se hace con los ids 1,2,3,4 en vez de 5,6,7, que serían los del torneo 3. Corregir punto "Marcador" y después validar que ya está bien.
+- Marcador
+  - ScoreCooker.score: Están prefijados los parámetros a valorar.
+    - cookerScoreForm.jsx: Se debería coger lo que hay en la tabla SCORE y generar el formulario en función a lo que retorne la llamada al servicio.

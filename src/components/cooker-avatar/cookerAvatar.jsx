@@ -32,7 +32,7 @@ const CookerAvatar = (props) => {
             data.append('image', selectedImage);
             data.append('cooker', JSON.stringify({
                 "id": props.avatarId,
-                "tournament" : props.tournamentId,
+                "tournamentId" : props.tournamentId,
                 "name": props.avatarName
             }));
             const requestOptions = {
@@ -68,9 +68,10 @@ const CookerAvatar = (props) => {
                 <CardMedia
                     component="img"
                     height={props.cardHeight}
-                    image={props.avatarImage === null && process.env.REACT_APP_PUBLIC_IMG + 'noImage.jpeg'}
+                    image={(props.avatarImage === null) && process.env.REACT_APP_PUBLIC_IMG + 'noImage.jpeg'}
                     src={`${props.avatarImage}`}
                     alt={props.avatarName}
+                    sx={(props.avatarImage === null) && { objectFit: "contain" }}
                 />
                 <MyCardContentNoPadding sx={{
                     display: 'flex',

@@ -49,8 +49,8 @@ const CookerCard = (props) => {
                 //Si lo pongo no funciona.            headers: { 'Content-Type': 'multipart/form-data' },
                 body: data
             };
-            console.log('llamada a: ' + process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + '/' + cooker.id + process.env.REACT_APP_API_VOTE_COURSES_TOURNAMENTS + '/' + props.tournamentId  + process.env.REACT_APP_API_VOTE_COURSES_IMG);
-            fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + '/' + cooker.id + process.env.REACT_APP_API_VOTE_COURSES_TOURNAMENTS + '/' + props.tournamentId  + process.env.REACT_APP_API_VOTE_COURSES_IMG, requestOptions)
+            console.log('llamada a: ' + process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + '/' + cooker.id + process.env.REACT_APP_API_VOTE_COURSES_TOURNAMENTS + '/' + props.tournamentId + process.env.REACT_APP_API_VOTE_COURSES_IMG);
+            fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + '/' + cooker.id + process.env.REACT_APP_API_VOTE_COURSES_TOURNAMENTS + '/' + props.tournamentId + process.env.REACT_APP_API_VOTE_COURSES_IMG, requestOptions)
                 .then(response => {
                     if (response.ok) {
                         return response.json();
@@ -58,21 +58,24 @@ const CookerCard = (props) => {
                         toast.error('Upload Fail. Tamaño máx foto: 10MB')
                         return null
                     }
-                      
+
                 })
                 .then((courseImg) => {
                     if (courseImg) {
                         toast.success("Upload File OK");
                         setSelectedImage(null);
+                        if (cooker.coursePhotos === undefined) {
+                            cooker.coursePhotos = [];
+                        } 
                         setCooker(oldCooker => ({ ...oldCooker, coursePhotos: [...cooker.coursePhotos.concat(courseImg)] }));
                     }
                 })
                 .catch(err => {
                     alert(err);
-                    console.log(err); 
+                    console.log(err);
                     toast.error('Upload Fail: ' + err.text)
                     return err;
-                    });
+                });
         }
     }, [selectedImage, props.tournamentId, cooker]);
 
@@ -92,7 +95,7 @@ const CookerCard = (props) => {
                                 courseId={cooker.courseId}
                                 imageId={photo.id}
                                 mediaType={photo.mediaType}
-                                avatarImage={`data:image/jpg;base64,${photo.base64Image}`}
+                                avatarImage={(photo.base64Image == null) ? null : `data:image/jpg;base64,${photo.base64Image}`}
                                 mediaName={photo.uriImage}
                                 visible={photo.visible}
                                 canEdit={(props.loggedCookerId === props.cookerId)}
@@ -131,7 +134,7 @@ const CookerCard = (props) => {
     // Guardamos visiblidad de todas las imágenes de un plato.
     const saveAllVisibility = (allVisible) => {
         if (cooker !== null) {
-        console.log(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + '/' + cooker.courseId + process.env.REACT_APP_API_VOTE_COURSES_IMG_VISIBLES + '/' + (allVisible ? '1' : '0'));
+            console.log(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + '/' + cooker.courseId + process.env.REACT_APP_API_VOTE_COURSES_IMG_VISIBLES + '/' + (allVisible ? '1' : '0'));
             const requestOptions = {
                 method: 'PUT',
             };
@@ -142,7 +145,7 @@ const CookerCard = (props) => {
                     } else {
                         throw new Error('API Error.');
                     }
-                }).then ( () => { 
+                }).then(() => {
                     toast.success('Visibilidad de imágenes OK');
                 }).catch(err => {
                     toast.error('Visibilidad de imagen ERROR', err);
@@ -158,7 +161,7 @@ const CookerCard = (props) => {
     const updateOrderImageStatus = (imageId, order) => {
         const newCoursePhotos = [...cooker.coursePhotos];
         newCoursePhotos.filter(img => img.id === imageId)[0].order = order;
-        newCoursePhotos.sort((a,b) => a.order - b.order);
+        newCoursePhotos.sort((a, b) => a.order - b.order);
         setCooker(oldCooker => ({ ...oldCooker, coursePhotos: newCoursePhotos }));
     }
 
@@ -198,7 +201,7 @@ const CookerCard = (props) => {
         };
         fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES, requestOptions)
             .then(response => {
-                const data =response.json();
+                const data = response.json();
 
                 // check for error response
                 if (!response.ok) {
@@ -217,7 +220,7 @@ const CookerCard = (props) => {
     }
 
     const isAllImgVisible = () => {
-        return !cooker.coursePhotos.filter(p => !p.visible).length;
+        return (cooker.coursePhotos) && (!cooker.coursePhotos.filter(p => !p.visible).length);
     };
 
     const boxUploadImageVideo = type => {
@@ -251,7 +254,7 @@ const CookerCard = (props) => {
                             <CookerAvatar
                                 tournamentId={props.tournamentId}
                                 avatarId={props.cookerId}
-                                avatarImage={`data:image/jpg;base64,${cooker.base64Image}`}
+                                avatarImage={(cooker.base64Image == null) ? null : `data:image/jpg;base64,${cooker.base64Image}`}
                                 avatarName={cooker.name}
                                 scoreEvent={getScoreEvent()}
                                 canEdit={(props.loggedCookerId === props.cookerId)}
@@ -272,7 +275,7 @@ const CookerCard = (props) => {
                                                 </IconButton>
                                             }
                                         </Grid>
-                                        <Typography  variant="body2" color="text.secondary" style={{ whiteSpace: "pre-wrap"  }}>
+                                        <Typography variant="body2" color="text.secondary" style={{ whiteSpace: "pre-wrap" }}>
                                             {(cooker.description == null) ? 'Sin descripción' : cooker.description}
                                         </Typography>
                                     </div>
@@ -375,12 +378,12 @@ const CookerCard = (props) => {
                 </Box>
                 {imageUrl && selectedImage && (
                     <div>
-                    <Box display="flex" sx={{ p: "20px" }} textAlign="left">
-                        <div>Image Preview:</div>
-                    </Box>
-                    <Box display="flex" sx={{ p: "20px" }} >
-                    <img src={imageUrl} alt={selectedImage.name} height="100px" />
-                    </Box>
+                        <Box display="flex" sx={{ p: "20px" }} textAlign="left">
+                            <div>Image Preview:</div>
+                        </Box>
+                        <Box display="flex" sx={{ p: "20px" }} >
+                            <img src={imageUrl} alt={selectedImage.name} height="100px" />
+                        </Box>
                     </div>
                 )}
             </div >

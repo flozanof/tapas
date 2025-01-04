@@ -9,7 +9,6 @@ import SendIcon from '@mui/icons-material/Send';
 import CookerLoading from '../cooker-loading/cookerLoading';
 import { toast } from 'react-toastify';
 
-
 const CookerScoreForm = (props) => {
     const [scoreCooker, setScoreCooker] = React.useState({});
     const [values, setValues] = React.useState({
@@ -135,12 +134,12 @@ const CookerScoreForm = (props) => {
                 score: values
             })
         };
-        fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_SCORES_COOKERS_VOTERS + '/' + props.loggedCookerId, requestOptions)
+        console.log(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_SCORES_VOTERS + '/' + props.loggedCookerId);
+        fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_SCORES_VOTERS + '/' + props.loggedCookerId, requestOptions)
             .then(response => {
-                const data = response.json();
 
                 if (!response.ok) {
-                    const error = (data && data.message) || response.status;
+                    const error = response.status;
                     return Promise.reject(error);
                 }
 
@@ -164,12 +163,13 @@ const CookerScoreForm = (props) => {
         console.log("cookerScoreForm.js: " + scoreCooker.cookerPhoto);
         return (
             <div>
-                <Grid container spacing={1} margin="20px">
+                <Grid container spacing={1} margin="20px" style={{ maxWidth: 1500 }} >
 
                     <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
                         <CookerAvatar
-                            avatarImage={`data:image/jpg;base64,${scoreCooker.cookerBase64Image}`}
+                            avatarImage={(scoreCooker.cookerBase64Image == null) ? null : `data:image/jpg;base64,${scoreCooker.cookerBase64Image}`}
                             avatarName={scoreCooker.name}
+                            cardHeight="400"
                         />
                     </Grid>
                     <Grid item xs={12} sm={12} md={4} lg={4} xl={4}
@@ -252,8 +252,9 @@ const CookerScoreForm = (props) => {
                     </Grid>
                     <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
                         <CookerAvatar
-                            avatarImage={`data:image/jpg;base64,${scoreCooker.courseBase64Image}`}
+                            avatarImage={(scoreCooker.courseBase64Image == null) ? null : `data:image/jpg;base64,${scoreCooker.courseBase64Image}`}
                             avatarName={scoreCooker.courseName}
+                            cardHeight="400"
                         />
                     </Grid>
                 </Grid>
