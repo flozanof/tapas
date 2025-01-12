@@ -9,6 +9,7 @@ Cuando se da de alta un usuario el username tiene que empezar por "user" y el pa
 ### Nuevo torneo
 
 Hay que crear los directorios en la carpeta "uploads" con el id del torneo.
+Hay que rellenar la tabla SCORE_TOURNAMENT.
 
 ### Elementos a puntuar
 

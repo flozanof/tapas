@@ -30,16 +30,16 @@ const listScores = (scores, loggedCookerId, activePageEvent, page, modified) => 
                 <TableCell component="th" scope="row" style={{ borderRight: "1px solid #505050" }}>
                     {row.cookerName}
                 </TableCell>
-                <TableCell align="center" style={{ borderRight: "1px solid #e0e0e0" }}>{row.score.taste}</TableCell>
-                <TableCell align="center" style={{ borderRight: "1px solid #505050" }}>{row.scoreWeighted.taste}</TableCell>
-                <TableCell align="center" style={{ borderRight: "1px solid #e0e0e0" }}>{row.score.presentation}</TableCell>
-                <TableCell align="center" style={{ borderRight: "1px solid #505050" }}>{row.scoreWeighted.presentation}</TableCell>
-                <TableCell align="center" style={{ borderRight: "1px solid #e0e0e0" }}>{row.score.elaboration}</TableCell>
-                <TableCell align="center" style={{ borderRight: "1px solid #505050" }}>{row.scoreWeighted.elaboration}</TableCell>
-                <TableCell align="center" style={{ borderRight: "1px solid #e0e0e0" }}>{row.score.product}</TableCell>
-                <TableCell align="center" style={{ borderRight: "1px solid #505050" }}>{row.scoreWeighted.product}</TableCell>
-                <TableCell align="center">{row.totalWeighted}
-                </TableCell>
+                {scores.weight.taste !== 0 && <TableCell align="center" style={{ borderRight: "1px solid #e0e0e0" }}>{row.score.taste}</TableCell>}
+                {scores.weight.taste !== 0 && <TableCell align="center" style={{ borderRight: "1px solid #505050" }}>{row.scoreWeighted.taste}</TableCell>}
+                {scores.weight.presentation !== 0 && <TableCell align="center" style={{ borderRight: "1px solid #e0e0e0" }}>{row.score.presentation}</TableCell>}
+                {scores.weight.presentation !== 0 && <TableCell align="center" style={{ borderRight: "1px solid #505050" }}>{row.scoreWeighted.presentation}</TableCell>}
+                {scores.weight.elaboration !== 0 && <TableCell align="center" style={{ borderRight: "1px solid #e0e0e0" }}>{row.score.elaboration}</TableCell>}
+                {scores.weight.elaboration !== 0 && <TableCell align="center" style={{ borderRight: "1px solid #505050" }}>{row.scoreWeighted.elaboration}</TableCell>}
+                {scores.weight.product !== 0 && <TableCell align="center" style={{ borderRight: "1px solid #e0e0e0" }}>{row.score.product}</TableCell>}
+                {scores.weight.product !== 0 && <TableCell align="center" style={{ borderRight: "1px solid #505050" }}>{row.scoreWeighted.product}</TableCell>}
+                <TableCell align="center">{row.totalWeighted}</TableCell>
+                <TableCell align="center">{row.total}</TableCell>
                 { modified &&  
                     <TableCell align="center">
                         {(row.id !== loggedCookerId) &&
@@ -65,15 +65,16 @@ export const scoreCookersTable = (title, scores, loggedCookerId, activePageEvent
                         <TableRow>
                             <TableCell align="center" width={10}>Pos</TableCell>
                             <TableCell>Nombre</TableCell>
-                            <TableCell align="center">Sabor</TableCell>
-                            <TableCell align="center">({scores.weight.taste})</TableCell>
-                            <TableCell align="center">Presentación</TableCell>
-                            <TableCell align="center">({scores.weight.presentation})</TableCell>
-                            <TableCell align="center">Elaboración</TableCell>
-                            <TableCell align="center">({scores.weight.elaboration})</TableCell>
-                            <TableCell align="center">Producto</TableCell>
-                            <TableCell align="center">({scores.weight.product})</TableCell>
+                            {scores.weight.taste !== 0 && <TableCell align="center">Sabor</TableCell>}
+                            {scores.weight.taste !== 0 && <TableCell align="center">({scores.weight.taste})</TableCell>}
+                            {scores.weight.presentation !== 0 && <TableCell align="center">Presentación</TableCell>}
+                            {scores.weight.presentation !== 0 && <TableCell align="center">({scores.weight.presentation})</TableCell>}
+                            {scores.weight.elaboration !== 0 && <TableCell align="center">Elaboración</TableCell>}
+                            {scores.weight.elaboration !== 0 && <TableCell align="center">({scores.weight.elaboration})</TableCell>}
+                            {scores.weight.product !== 0 && <TableCell align="center">Producto</TableCell>}
+                            {scores.weight.product !== 0 && <TableCell align="center">({scores.weight.product})</TableCell>}
                             <TableCell align="center">Total</TableCell>
+                            <TableCell align="center">Suma</TableCell>
                             { modified && <TableCell align="center"/> }
                         </TableRow>
                     </TableHead>

@@ -26,7 +26,7 @@ const CookerScoreForm = (props) => {
     })
 
     const isUpdateAction = (aScore) => {
-        return aScore.taste + aScore.presentation + aScore.elaboration + aScore.product
+        return (aScore.taste > 0) || (aScore.presentation > 0) || (aScore.elaboration > 0) || (aScore.product > 0);
     }
 
     React.useEffect(() => {
@@ -41,6 +41,10 @@ const CookerScoreForm = (props) => {
     const validateScore = (score, name, validation, valName) => {
         let isValid = true;
         console.log('Entra en validateScore ' + score);
+        // Si el valor no está definido es que no se usa este tipo de puntuación en este torneo.
+        if (score === undefined) {
+            return true;
+        }
         if (!score) {
             console.log('********** error validacionn null');
             validation[valName] = `Hay que informar la puntuación de "${name}".`
@@ -193,54 +197,62 @@ const CookerScoreForm = (props) => {
                         >
                             <div>
                                 <Typography variant="h6" gutterBottom component="div" display="flex" justifyContent="center">PUNTUACIÓN</Typography>
-                                <TextField
-                                    id="outlined-number"
-                                    label="Sabor"
-                                    type="number"
-                                    name="taste"
-                                    value={taste}
-                                    onChange={handleChange}
-                                    onBlur={validateOne}
-                                />
-                                <Typography variant="caption" display="block" gutterBottom>
-                                    {saborVal}
-                                </Typography>
-                                <TextField
-                                    id="outlined-number"
-                                    label="Presentación"
-                                    type="number"
-                                    name="presentation"
-                                    value={presentation}
-                                    onChange={handleChange}
-                                    onBlur={validateOne}
-                                />
-                                <Typography variant="caption" display="block" gutterBottom>
-                                    {presentacionVal}
-                                </Typography>
-                                <TextField
-                                    id="outlined-number"
-                                    label="Elaboración"
-                                    type="number"
-                                    name="elaboration"
-                                    value={elaboration}
-                                    onChange={handleChange}
-                                    onBlur={validateOne}
-                                />
-                                <Typography variant="caption" display="block" gutterBottom>
-                                    {elaboracionVal}
-                                </Typography>
-                                <TextField
-                                    id="outlined-number"
-                                    label="Producto"
-                                    type="number"
-                                    name="product"
-                                    value={product}
-                                    onChange={handleChange}
-                                    onBlur={validateOne}
-                                />
-                                <Typography variant="caption" display="block" gutterBottom>
-                                    {productoVal}
-                                </Typography>
+                                {taste !== undefined &&
+                                    <TextField
+                                        id="outlined-number"
+                                        label="Sabor"
+                                        type="number"
+                                        name="taste"
+                                        value={taste}
+                                        onChange={handleChange}
+                                        onBlur={validateOne}
+                                    />}
+                                {taste !== undefined &&
+                                    <Typography variant="caption" display="block" gutterBottom>
+                                        {saborVal}
+                                    </Typography>}
+                                {presentation !== undefined &&
+                                    <TextField
+                                        id="outlined-number"
+                                        label="Presentación"
+                                        type="number"
+                                        name="presentation"
+                                        value={presentation}
+                                        onChange={handleChange}
+                                        onBlur={validateOne}
+                                    />}
+                                {presentation !== undefined &&
+                                    <Typography variant="caption" display="block" gutterBottom>
+                                        {presentacionVal}
+                                    </Typography>}
+                                {elaboration !== undefined &&
+                                    <TextField
+                                        id="outlined-number"
+                                        label="Elaboración"
+                                        type="number"
+                                        name="elaboration"
+                                        value={elaboration}
+                                        onChange={handleChange}
+                                        onBlur={validateOne}
+                                    />}
+                                {elaboration !== undefined &&
+                                    <Typography variant="caption" display="block" gutterBottom>
+                                        {elaboracionVal}
+                                    </Typography>}
+                                {product !== undefined &&
+                                    <TextField
+                                        id="outlined-number"
+                                        label="Producto"
+                                        type="number"
+                                        name="product"
+                                        value={product}
+                                        onChange={handleChange}
+                                        onBlur={validateOne}
+                                    />}
+                                {product !== undefined &&
+                                    <Typography variant="caption" display="block" gutterBottom>
+                                        {productoVal}
+                                    </Typography>}
 
                                 <Button type="submit" variant="outlined" startIcon={<SendIcon />}>
                                     Enviar

@@ -60,8 +60,11 @@ const CookerAvatar = (props) => {
                     <CardHeader
                         title={props.avatarTitle}
                         // subheader="September 14, 2016"
+                        //todo: Ver que no da error si avatar no tiene imagen.
                         action={
-                            <Avatar src={`${props.cookerImage}`} />
+                            <Avatar 
+                                src={`${props.cookerImage}`} 
+                            />
                         }
                     />
                 }

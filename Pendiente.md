@@ -34,11 +34,10 @@
 - Cooker.user_id hace referencia a user_app.
 - Modificar User y UserDAO. Tienen acceso a una lista de torneos.
 
-- Poder cambiar credenciales de usuario. Si usuario o password es el mismo obligar a cambiarlo.
-
 - En la parte de "Resultados" mirar si se puede poner una media, es decir, el total que tiene dividido por el número de cocineros que le han votado.
 
-- La inserción en COOKER_SCORE se hace con los ids 1,2,3,4 en vez de 5,6,7, que serían los del torneo 3. Corregir punto "Marcador" y después validar que ya está bien.
-- Marcador
-  - ScoreCooker.score: Están prefijados los parámetros a valorar.
-    - cookerScoreForm.jsx: Se debería coger lo que hay en la tabla SCORE y generar el formulario en función a lo que retorne la llamada al servicio.
+- Hay nueva tabla (SCORE_TOURNAMENT) que indica qué marcadores están habilitados para un torneo.
+  - Cuando se retornen los marcadores tendremos:
+    - Un valor null si el marcador no está habilitado para el torneo actual.
+    - Un valor 0 si está habilitado, pero no está asignado.
+    - Un valor entre 1 y 10 si el marcador está habilitado y ha sido asignado.
