@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { scoreCookersTable } from '../functions/functionsScoreTable';
+import ScoreCookersTable from '../functions/functionsScoreTable';
 import CookerLoading from '../cooker-loading/cookerLoading';
 
 const CookersTable = (props) => {
@@ -19,7 +19,7 @@ const CookersTable = (props) => {
 
     if ( (scoresCookers) && (scoresCookers.scores) && (scoresCookers.scores.length > 0) ) {
         return (
-            scoreCookersTable('RESULTADOS', scoresCookers, props.loggedCookerId, props.activePageEvent, 4, false)
+            <ScoreCookersTable title='RESULTADOS' scoresInitial={scoresCookers} loggedCookerId={props.loggedCookerId} activePageEvent={props.activePageEvent} page={4} modified={false} />
         )
     } else {
         return <CookerLoading/>

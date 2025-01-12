@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { scoreCookersTable } from '../functions/functionsScoreTable';
+import ScoreCookersTable from '../functions/functionsScoreTable';
 import CookerLoading from '../cooker-loading/cookerLoading';
 
 const CookersVoterTable = (props) => {
@@ -20,7 +20,8 @@ const CookersVoterTable = (props) => {
 
     if ( (scoresCookers) && (scoresCookers.scores) && (scoresCookers.scores.length > 0) ) {
         return (
-            scoreCookersTable('MIS PUNTUACIONES', scoresCookers, props.loggedCookerId, props.activePageEvent, 4, true)
+            <ScoreCookersTable title='MIS PUNTUACIONES' scoresInitial={scoresCookers} loggedCookerId={props.loggedCookerId} activePageEvent={props.activePageEvent} page={4} modified={true} />
+            //            scoreCookersTable('MIS PUNTUACIONES', scoresCookers, props.loggedCookerId, props.activePageEvent, 4, true)
         )
     } else {
         return <CookerLoading/>
