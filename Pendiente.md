@@ -41,3 +41,6 @@
     - Un valor null si el marcador no está habilitado para el torneo actual.
     - Un valor 0 si está habilitado, pero no está asignado.
     - Un valor entre 1 y 10 si el marcador está habilitado y ha sido asignado.
+
+- Poder puntuar sin haber hecho un plato.
+- Poner hint a los botones.

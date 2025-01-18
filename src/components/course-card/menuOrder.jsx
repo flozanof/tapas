@@ -60,7 +60,7 @@ const MenuOrder = (props) => {
         //React.Fragemet es lo mismo que <>
         <>
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-                <Tooltip title="Image order">
+                <Tooltip title="Orden de la imagen">
                     <IconButton
                         onClick={handleClick}
                         size="small"

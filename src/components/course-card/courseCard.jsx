@@ -2,6 +2,7 @@ import React from 'react'
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
+import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -52,12 +53,12 @@ const CourseCard = (props) => {
     };
 
     const deleteCourseImage = () => {
-        console.log(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + '/' + props.courseId + process.env.REACT_APP_API_VOTE_COURSES_TOURNAMENTS + '/' + props.tournamentId  + process.env.REACT_APP_API_VOTE_COURSES_IMG + '/' + props.imageId + ' (DELETE)');
+        console.log(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + '/' + props.courseId + process.env.REACT_APP_API_VOTE_COURSES_TOURNAMENTS + '/' + props.tournamentId + process.env.REACT_APP_API_VOTE_COURSES_IMG + '/' + props.imageId + ' (DELETE)');
         // POST request using fetch with error handling
         const requestOptions = {
             method: 'DELETE',
         };
-        fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + '/' + props.courseId + process.env.REACT_APP_API_VOTE_COURSES_TOURNAMENTS + '/' + props.tournamentId  + process.env.REACT_APP_API_VOTE_COURSES_IMG + '/' + props.imageId, requestOptions)
+        fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES + '/' + props.courseId + process.env.REACT_APP_API_VOTE_COURSES_TOURNAMENTS + '/' + props.tournamentId + process.env.REACT_APP_API_VOTE_COURSES_IMG + '/' + props.imageId, requestOptions)
             .then((response) => {
                 if (response.ok) {
                     console.log('Borrado imagen OK');
@@ -79,12 +80,24 @@ const CourseCard = (props) => {
         <Card>
             {(props.mediaType === 'IMG') &&
                 <div>
-                    <CardMedia
-                        component="img"
-                        height="200"
-                        src={`${props.avatarImage}`}
-                        alt={props.avatarName}
-                    />
+                    {(props.orderPosition === 0)
+                        ?
+                        <Tooltip title="Si está visible será la foto que se mostrará en la home." placement="top-end" arrow>
+                            <CardMedia
+                                component="img"
+                                height="200"
+                                src={`${props.avatarImage}`}
+                                alt={props.avatarName}
+                            />
+                        </Tooltip>
+                        :
+                        <CardMedia
+                            component="img"
+                            height="200"
+                            src={`${props.avatarImage}`}
+                            alt={props.avatarName}
+                        />
+                    }
                 </div>
             }
             {(props.mediaType === 'VIDEO') &&
@@ -92,7 +105,7 @@ const CourseCard = (props) => {
                     <CardMedia
                         component="video"
                         height="200"
-                        src={process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_MEDIA +  `/${props.tournamentId}` + process.env.REACT_APP_API_MEDIA_VIDEO + `/${props.mediaName}`}
+                        src={process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_MEDIA + `/${props.tournamentId}` + process.env.REACT_APP_API_MEDIA_VIDEO + `/${props.mediaName}`}
                         title='title'
                         controls
                     />
@@ -104,8 +117,8 @@ const CourseCard = (props) => {
                     justifyContent: 'flex-end'
                 }}
                 >
-                    { (props.orderPosition === 0) &&
-                        <Typography  variant="body2" color="text.secondary" display="flex" alignItems="center">
+                    {(props.orderPosition === 0) &&
+                        <Typography variant="body2" color="text.secondary" display="flex" alignItems="center">
                             Imagen Principal
                         </Typography>
                     }
@@ -114,13 +127,17 @@ const CourseCard = (props) => {
                     </IconButton>
                     {
                         imgVisible ?
-                            <IconButton aria-label="visible on" size="small" color="primary" onClick={() => { updateVisibility(0) }} >
-                                <VisibilityIcon fontSize="inherit" />
-                            </IconButton>
+                            <Tooltip title="Imagen visible a otros usuarios. Pulsa para ocultarla." arrow>
+                                <IconButton aria-label="visible on" size="small" color="primary" onClick={() => { updateVisibility(0) }} >
+                                    <VisibilityIcon fontSize="inherit" />
+                                </IconButton>
+                            </Tooltip>
                             :
-                            <IconButton aria-label="visible off" size="small" onClick={() => { updateVisibility(1) }} >
-                                <VisibilityOffIcon fontSize="inherit" />
-                            </IconButton>
+                            <Tooltip title="Imagen oculta a otros usuarios. Pulsa para hacerla visible." arrow>
+                                <IconButton aria-label="visible off" size="small" onClick={() => { updateVisibility(1) }} >
+                                    <VisibilityOffIcon fontSize="inherit" />
+                                </IconButton>
+                            </Tooltip>
                     }
                     <MenuOrder
                         imageId={props.imageId}

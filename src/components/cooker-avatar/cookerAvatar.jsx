@@ -4,6 +4,7 @@ import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import PersonIcon from '@mui/icons-material/Person';
@@ -32,7 +33,7 @@ const CookerAvatar = (props) => {
             data.append('image', selectedImage);
             data.append('cooker', JSON.stringify({
                 "id": props.avatarId,
-                "tournamentId" : props.tournamentId,
+                "tournamentId": props.tournamentId,
                 "name": props.avatarName
             }));
             const requestOptions = {
@@ -62,8 +63,8 @@ const CookerAvatar = (props) => {
                         // subheader="September 14, 2016"
                         //todo: Ver que no da error si avatar no tiene imagen.
                         action={
-                            <Avatar 
-                                src={`${props.cookerImage}`} 
+                            <Avatar
+                                src={`${props.cookerImage}`}
                             />
                         }
                     />
@@ -88,18 +89,22 @@ const CookerAvatar = (props) => {
                         {props.avatarName}
                     </Typography>
                     {props.cardEvent &&
-                        <IconButton variant="contained" aria-label="visible off" size="small" color="primary" component="span"
-                            onClick={() => props.cardEvent(1, props.avatarId)}
-                        >
-                            <PersonIcon fontSize="inherit" />
-                        </IconButton>
+                        <Tooltip title={`Datos de ${props.avatarTitle}`} arrow>
+                            <IconButton variant="contained" aria-label="visible off" size="small" color="primary" component="span"
+                                onClick={() => props.cardEvent(1, props.avatarId)}
+                            >
+                                <PersonIcon fontSize="inherit" />
+                            </IconButton>
+                        </Tooltip>
                     }
                     {props.scoreEvent &&
-                        <IconButton variant="contained" aria-label="visible off" size="small" color="primary" component="span"
-                            onClick={() => props.scoreEvent(4, props.avatarId)}
-                        >
-                            <FormatListNumberedIcon fontSize="inherit" />
-                        </IconButton>
+                        <Tooltip title={`Puntuar a ${props.avatarTitle || props.avatarName}`} arrow>
+                            <IconButton variant="contained" aria-label="visible off" size="small" color="primary" component="span"
+                                onClick={() => props.scoreEvent(4, props.avatarId)}
+                            >
+                                <FormatListNumberedIcon fontSize="inherit" />
+                            </IconButton>
+                        </Tooltip>
                     }
                     {(props.canEdit > 0) &&
                         <div>
@@ -111,9 +116,11 @@ const CookerAvatar = (props) => {
                                 onChange={e => setSelectedImage(e.target.files[0])}
                             />
                             <label htmlFor="selectCooker-image">
-                                < IconButton variant="contained" aria-label="visible off" size="small" color="primary" component="span" >
-                                    <CameraAltIcon fontSize="inherit" />
-                                </IconButton>
+                                <Tooltip title="Cambiar foto" arrow>
+                                    <IconButton variant="contained" aria-label="visible off" size="small" color="primary" component="span" >
+                                        <CameraAltIcon fontSize="inherit" />
+                                    </IconButton>
+                                </Tooltip>
                             </label>
                         </div>
                     }

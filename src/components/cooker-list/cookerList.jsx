@@ -24,6 +24,11 @@ const CookerList = (props) => {
     const getScoreEvent= (cookerId) => {
         return (cookerId !== props.loggedCookerId) && props.activePageEvent;
     }
+    const getAvatarImage= (cooker) => {
+        return ((cooker.coursePhotos == null) || (!cooker.coursePhotos[0].visible) )  
+                ? (cooker.base64Image == null) ? null : `data:image/jpg;base64,${cooker.base64Image}`
+                : `data:image/jpg;base64,${cooker.coursePhotos[0].base64Image}`;
+    }
 
     const listCookers = () => {
         return (
@@ -34,7 +39,7 @@ const CookerList = (props) => {
                         avatarId={cooker.id}
                         avatarTitle={cooker.name}
                         cookerImage={(cooker.base64Image == null) ? null : `data:image/jpg;base64,${cooker.base64Image}`}
-                        avatarImage={((cooker.coursePhotos == null) || (!cooker.coursePhotos[0].visible) ) ? null : `data:image/jpg;base64,${cooker.coursePhotos[0].base64Image}`}
+                        avatarImage={getAvatarImage(cooker)}
                         avatarName={cooker.course}
                         cardEvent={props.activePageEvent}
                         scoreEvent={getScoreEvent(cooker.id)}

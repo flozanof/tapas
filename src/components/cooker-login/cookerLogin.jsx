@@ -73,7 +73,12 @@ const CookerLogin = (props) => {
                 } else {
                     toast.error(aUser.txtError);
                 }
-            });
+            })
+            .catch(e => {
+                alert("Error conexión Servidor: " + e);
+                console.log(e); 
+                return e;
+                });
     };
 
     // Formulario para introducir las credenciales.
