@@ -32,32 +32,38 @@ function Copyright() {
 
 const CookerApp = () => {
     const [user, setUser] = useState({});
+    const [tournament, setTournament] = useState({});
     const [idPage, setIdPage] = useState(0);
     const [cookerId, setCookerId] = useState(0);
-    const [loggedCookerId, setLoggedCookerId] = useState(0);
-    const [tournamentId, setTournamentId] = useState(-1);
+    const [loggedCookerId, setLoggedCookerId] = useState(-1);
+    const [loggedUserId, setLoggedUserId] = useState(-1);
 
     const handleUser = (aUser) => {
+        console.log('cookerApp.handleUser: ' + aUser.name + ' - ' + aUser.userType);
         setUser(aUser);
     }
 
-    const handleLoggingClick = (cookerId, idTournament, pageId) => {
-        console.log('cookerApp.js. **** LOGGING *****. cookerId: ' + cookerId + ' tournamentId: ' + idTournament);
+    const handleLoggingClick = (userId, cookerId, tournament, pageId) => {
+        console.log('cookerApp.js. **** LOGGING *****. userId: ' + userId + ' cookerId: ' + cookerId + ' tournamentId: ' + tournament.id);
         setIdPage(pageId);
+        if (userId !== -1) {
+            setLoggedUserId(userId);
+        }
         if (cookerId !== -1) {
             setLoggedCookerId(cookerId);
         }
-        if (idTournament !== -1) {
-            setTournamentId(idTournament);
+        if (tournament !== undefined) {
+            setTournament(tournament);
         }
     }
 
     const handleStatePageClick = (page, cookerId) => {
         console.log('cookerApp.js. cookerId: ' + cookerId + ' pageId: ' + page);
-        if (cookerId === 0) {
+        if (cookerId === -1) {
             setIdPage(0);
             setCookerId(0);
-            setLoggedCookerId(0);
+            setLoggedCookerId(-1);
+            setLoggedUserId(-1);
         } else {
             setIdPage(page);
             setCookerId(cookerId);
@@ -66,13 +72,13 @@ const CookerApp = () => {
 
     const getActualPage = () => {
         const pages = [
-            <CookerList tournamentId={tournamentId} activePageEvent={handleStatePageClick} loggedCookerId={loggedCookerId} />,
-            <CookerCard tournamentId={tournamentId} activePageEvent={handleStatePageClick} cookerId={cookerId} loggedCookerId={loggedCookerId} />,
-            <CookersTable tournamentId={tournamentId} activePageEvent={handleStatePageClick} allScore={true} loggedCookerId={loggedCookerId} />,
-            <CookersVoterTable activePageEvent={handleStatePageClick} loggedCookerId={loggedCookerId} />,
-            <CookerScoreForm tournamentId={tournamentId} activePageEvent={handleStatePageClick} cookerId={cookerId} loggedCookerId={loggedCookerId} />,
+            <CookerList tournamentId={tournament.id} activePageEvent={handleStatePageClick} loggedCookerId={loggedCookerId} />,
+            <CookerCard tournamentId={tournament.id} activePageEvent={handleStatePageClick} cookerId={cookerId} loggedCookerId={loggedCookerId} />,
+            <CookersTable tournamentId={tournament.id} activePageEvent={handleStatePageClick} allScore={true} loggedCookerId={loggedCookerId} />,
+            <CookersVoterTable activePageEvent={handleStatePageClick} tournamentId={tournament.id} loggedCookerId={loggedCookerId} loggedUserId={loggedUserId} />,
+            <CookerScoreForm tournamentId={tournament.id} activePageEvent={handleStatePageClick} cookerId={cookerId} loggedCookerId={loggedCookerId} loggedUserId={loggedUserId}/>,
             <SelectTournament user={user} loginEvent={handleLoggingClick} />,
-            <CookerChangeUser user={user} changeStateUserEvent={handleUser} loginEvent={handleLoggingClick} pageReturn={0}/>
+            <CookerChangeUser user={user} changeStateUserEvent={handleUser} loginEvent={handleLoggingClick} pageReturn={0} />
 
         ];
         return pages[idPage];
@@ -84,7 +90,7 @@ const CookerApp = () => {
                 <ToastContainer style={{ whiteSpace: "pre-line" }}/>
             </div>
 
-            {((loggedCookerId === 0) || (idPage === -1))
+            {((loggedCookerId === -1) || (idPage === -1))
                 ? < CookerLogin loginEvent={handleLoggingClick} userEvent={handleUser} />
                 :
                 <div>
@@ -92,6 +98,9 @@ const CookerApp = () => {
                         <Box sx={{ flexGrow: 1, p: "15px 15px 15px 15px" }}>
                             {
                                 <MainMenu activePageEvent={handleStatePageClick}
+                                    userType={user.userType}
+                                    tournamentId={tournament.id}
+                                    tournamentOpen={tournament.votar}
                                     loggedCookerId={loggedCookerId}
                                     tournamentVisible={user.tournaments.length > 1} />
                             }

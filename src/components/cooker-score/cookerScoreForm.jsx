@@ -30,13 +30,13 @@ const CookerScoreForm = (props) => {
     }
 
     React.useEffect(() => {
-        fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_SCORES_COOKERS + '/' + props.cookerId + process.env.REACT_APP_API_VOTE_VOTERS + '/' + props.loggedCookerId)
+        fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_SCORES_COOKERS + '/' + props.cookerId + process.env.REACT_APP_API_VOTE_VOTERS + '/' + props.loggedUserId)
             .then(response => response.json())
             .then((aScoreCooker) => {
                 setScoreCooker(aScoreCooker);
                 setValues(aScoreCooker.score);
             });
-    }, [props.cookerId, props.loggedCookerId]);
+    }, [props.cookerId, props.loggedUserId]);
 
     const validateScore = (score, name, validation, valName) => {
         let isValid = true;
@@ -138,8 +138,8 @@ const CookerScoreForm = (props) => {
                 score: values
             })
         };
-        console.log(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_SCORES_VOTERS + '/' + props.loggedCookerId);
-        fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_SCORES_VOTERS + '/' + props.loggedCookerId, requestOptions)
+        console.log(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_SCORES_VOTERS + '/' + props.loggedUserId);
+        fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_SCORES_VOTERS + '/' + props.loggedUserId, requestOptions)
             .then(response => {
 
                 if (!response.ok) {

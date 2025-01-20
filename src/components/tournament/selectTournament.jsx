@@ -9,11 +9,19 @@ const SelectTournament = (props) => {
 
     const handleSelectedTournament = (tournamentId) => {
         console.log("ENTRA EN SELECCIÓN DE TORNEOS");
-        fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COOKERS + process.env.REACT_APP_API_VOTE_USERS + "/" + props.user.id +
+        let tournamentBdd;
+        fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES_TOURNAMENTS + "/" + tournamentId)
+            .then(response => response.json())
+            .then((aTournament) => {
+                tournamentBdd = aTournament;
+            });
+
+        fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_USERS + "/" + props.user.id +
             process.env.REACT_APP_API_VOTE_COURSES_TOURNAMENTS + "/" + tournamentId)
             .then(response => response.json())
-            .then((aCooker) => {
-                props.loginEvent(aCooker.id, tournamentId, 0);
+            .then((aUser) => {
+                console.log("aUser = " + aUser.id + " aCooker = " + aUser.cookerId);
+                props.loginEvent(aUser.id, aUser.cookerId, tournamentBdd, 0);
             });
     };
 

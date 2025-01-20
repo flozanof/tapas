@@ -23,7 +23,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 //const scoreCookersTable = (title, scoresInitial, loggedCookerId, activePageEvent, page, modified) => {
-//    <ScoreCookersTable title='MIS PUNTUACIONES' scoresInitial={scoresCookers} loggedCookerId={props.loggedCookerId} activePageEvent={props.activePageEvent} page={4} modified={true} />
+//    <ScoreCookersTabactivePageEventle title='MIS PUNTUACIONES' scoresInitial={scoresCookers} loggedCookerId={props.loggedCookerId} activePageEvent={props.activePageEvent} page={4} modified={true} />
 
 const ScoreCookersTable = (props) => {
     const [scores, setScores] = React.useState(props.scoresInitial);
@@ -60,7 +60,7 @@ const ScoreCookersTable = (props) => {
                         {modified &&
                             <TableCell align="center">
                                 {(row.id !== loggedCookerId) &&
-                                    <Tooltip title="Modificar puntuación">
+                                    <Tooltip title="Asignar/modificar puntuación">
                                         <Button variant="outlined" sx={{ color: blueGrey[400] }} onClick={() => activePageEvent(page, row.cookerId)} >
                                         <EditIcon sx={{ color: blueGrey[400], "& :hover": { color: blueGrey[600] } }} />
                                     </Button>

@@ -68,7 +68,7 @@ const CookerChangeUser = (props) => {
                         toast.success("Cambio de usuario/password correcto.");
                         props.changeStateUserEvent(aUser.user)
                         if (props.pageReturn !== undefined) {
-                            props.loginEvent(-1, -1, props.pageReturn);
+                            props.loginEvent(-1, -1, -1, props.pageReturn);
                         }
                         setIsChanged(true);
                     } else {

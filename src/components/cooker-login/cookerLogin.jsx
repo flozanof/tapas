@@ -68,6 +68,7 @@ const CookerLogin = (props) => {
             .then(response => response.json())
             .then((aUser) => {
                 if ((aUser.user !== undefined) && (aUser.txtError === undefined)) {
+                    console.log('cookerLogin.login: ' + aUser.user.name + '/' + aUser.user.userType);
                     props.userEvent(aUser.user);
                     setUser(aUser);
                 } else {

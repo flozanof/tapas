@@ -1,6 +1,8 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import LockIcon from '@mui/icons-material/Lock';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -12,16 +14,45 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { ChangeCircle } from '@mui/icons-material';
+import { toast } from 'react-toastify';
 
 export default function MainMenu(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [tournamentOpen, setTournamentOpen] = React.useState(props.tournamentOpen);
   const open = Boolean(anchorEl);
+
+  React.useEffect(() => {
+    console.log("MAIN MENÚ: Tour. id: " + props.tournamentId + ". Open: " + tournamentOpen + ". User type: " + props.userType );
+    const requestOptions = {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        votar: tournamentOpen
+      })
+    };
+    fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES_TOURNAMENTS + '/' + props.tournamentId, requestOptions)
+      .then(response => {
+        if (!response.ok) {
+          const error = response.status;
+          return Promise.reject(error);
+        }
+
+        toast.success((tournamentOpen === 'S') ? 'Votación abierta' : 'Votación cerrada');
+      })
+      .catch(error => {
+        toast.error('Error en el cierre/apertura de la votación del torneo.', error);
+      });
+  }, [props.tournamentId, tournamentOpen, props.userType ]);
+
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <div style={{ display: 'inline-flex', align: 'right' }} >
       <Box>
@@ -44,7 +75,7 @@ export default function MainMenu(props) {
         open={open}
         onClose={handleClose}
         onClick={handleClose}
-        slotProps={{
+        slotprops={{
           paper: {
             elevation: 0,
             sx: {
@@ -52,8 +83,8 @@ export default function MainMenu(props) {
               filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
               mt: 1.5,
               '& .MuiAvatar-root': {
-                width: 32,
-                height: 32,
+                width: 20,
+                height: 20,
                 ml: -0.5,
                 mr: 1,
               },
@@ -75,9 +106,30 @@ export default function MainMenu(props) {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={() => props.activePageEvent(1, props.loggedCookerId)} >
-          <Avatar /> Usuario
-        </MenuItem>
+        {(props.userType === 'ADMIN') && (tournamentOpen === 'S') &&
+          <MenuItem onClick={() => setTournamentOpen('N')} >
+            <ListItemIcon>
+              <LockIcon fontSize="small" />
+            </ListItemIcon>
+            Cerrar Votación
+          </MenuItem>
+        }
+        {(props.userType === 'ADMIN') && (tournamentOpen === 'N') &&
+          <MenuItem onClick={() => setTournamentOpen('S')} >
+            <ListItemIcon>
+              <LockOpenIcon fontSize="small" />
+            </ListItemIcon>
+            Abrir Votación
+          </MenuItem>
+        }
+        {(props.loggedCookerId !== -1) && (props.loggedCookerId !== 0) &&
+          <MenuItem onClick={() => props.activePageEvent(1, props.loggedCookerId)} >
+            <ListItemIcon>
+              <Avatar fontSize="small" />
+            </ListItemIcon>
+            Usuario
+          </MenuItem>
+        }
         {/**<MenuItem onClick={handleClose}>
           <Avatar /> My account
         </MenuItem>*/}
@@ -102,7 +154,7 @@ export default function MainMenu(props) {
           </ListItemIcon>
           Add another account
         </MenuItem>*/}
-        <MenuItem onClick={() => props.activePageEvent(0, 0)}>
+        <MenuItem onClick={() => props.activePageEvent(0, -1)}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

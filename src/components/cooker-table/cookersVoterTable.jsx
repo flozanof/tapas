@@ -6,8 +6,7 @@ const CookersVoterTable = (props) => {
     const [scoresCookers, setScoresCookers] = React.useState([]);
 
     React.useEffect(() => {
-        console.log("aaaaaaa "+ process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_SCORES_VOTERS + '/' +  props.loggedCookerId);
-        fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_SCORES_VOTERS + '/' +  props.loggedCookerId)
+        fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_SCORES_TOURNAMENTS + '/' + props.tournamentId + process.env.REACT_APP_API_VOTE_VOTERS + '/' +  props.loggedUserId)
             .then((response) => {
                 return response.json()
             })
@@ -15,7 +14,7 @@ const CookersVoterTable = (props) => {
                 scoresList.scores.sort((a, b) => (b.totalWeighted) - (a.totalWeighted));
                 setScoresCookers(scoresList)
             });
-    }, [props.loggedCookerId]);
+    }, [props.tournamentId, props.loggedUserId]);
 
 
     if ( (scoresCookers) && (scoresCookers.scores) && (scoresCookers.scores.length > 0) ) {
