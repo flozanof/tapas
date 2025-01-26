@@ -6,6 +6,12 @@
 
 Cuando se da de alta un usuario el username tiene que empezar por "user" y el password por "pass". ESto hará que se reconozca que no ha cambiado el usuario ni password y se le reenvíe a un formulario para que lo cambie.
 
+### Tipos de usuarios
+
+- ADMIN: usuario administrador. Pueder cerrar las votaciones...
+- USER: usuario validado en el sistema que puede votar y ha presentado un plato.
+- JURADO: usuario validado en el sistema, pero que no ha presentado un plato para competir.
+
 ### Nuevo torneo
 
 Hay que crear los directorios en la carpeta "uploads" con el id del torneo.

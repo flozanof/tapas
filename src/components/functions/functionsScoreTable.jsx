@@ -57,81 +57,81 @@ const ScoreCookersTable = (props) => {
                         {scores.weight.product !== 0 && <TableCell align="center" style={{ borderRight: "1px solid #505050" }}>{row.scoreWeighted.product}</TableCell>}
                         <TableCell align="center" style={{ borderRight: "1px solid #505050" }}>{row.totalWeighted}</TableCell>
                         <TableCell align="center">{row.total}</TableCell>
-                        {modified &&
+                        {modified && props.tournamentOpen &&
                             <TableCell align="center">
                                 {(row.id !== loggedCookerId) &&
                                     <Tooltip title="Asignar/modificar puntuación">
                                         <Button variant="outlined" sx={{ color: blueGrey[400] }} onClick={() => activePageEvent(page, row.cookerId)} >
-                                        <EditIcon sx={{ color: blueGrey[400], "& :hover": { color: blueGrey[600] } }} />
-                                    </Button>
-                                </Tooltip>
+                                            <EditIcon sx={{ color: blueGrey[400], "& :hover": { color: blueGrey[600] } }} />
+                                        </Button>
+                                    </Tooltip>
+                                }
+                            </TableCell>
                         }
-                    </TableCell>
-                    }
-                </TableRow >
-            )
-        })
+                    </TableRow >
+                )
+            })
         )
     };
 
-const manejarOrden = (columna) => {
-    const ascendente = orden.columna === columna ? !orden.ascendente : true;
-    const scoresOrdenados = [...scores.scores].sort((a, b) => {
-        if (a[columna] < b[columna]) return ascendente ? -1 : 1;
-        if (a[columna] > b[columna]) return ascendente ? 1 : -1;
-        return 0;
-    });
+    const manejarOrden = (columna) => {
+        const ascendente = orden.columna === columna ? !orden.ascendente : true;
+        const scoresOrdenados = [...scores.scores].sort((a, b) => {
+            if (a[columna] < b[columna]) return ascendente ? -1 : 1;
+            if (a[columna] > b[columna]) return ascendente ? 1 : -1;
+            return 0;
+        });
 
-    scores.scores = scoresOrdenados;
+        scores.scores = scoresOrdenados;
 
-    setOrden({ columna, ascendente });
-    setScores(scores);
-};
+        setOrden({ columna, ascendente });
+        setScores(scores);
+    };
 
-return (
-    <div>
-        <Item>{props.title}</Item>
-        <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell align="center" width={10}>Pos</TableCell>
-                        <TableCell>Nombre</TableCell>
-                        {scores.weight.taste !== 0 && <TableCell align="center">Sabor</TableCell>}
-                        {scores.weight.taste !== 0 && <TableCell align="center">({scores.weight.taste})</TableCell>}
-                        {scores.weight.presentation !== 0 && <TableCell align="center">Presentación</TableCell>}
-                        {scores.weight.presentation !== 0 && <TableCell align="center">({scores.weight.presentation})</TableCell>}
-                        {scores.weight.elaboration !== 0 && <TableCell align="center">Elaboración</TableCell>}
-                        {scores.weight.elaboration !== 0 && <TableCell align="center">({scores.weight.elaboration})</TableCell>}
-                        {scores.weight.product !== 0 && <TableCell align="center">Producto</TableCell>}
-                        {scores.weight.product !== 0 && <TableCell align="center">({scores.weight.product})</TableCell>}
-                        <TableCell align="center">
-                            <TableSortLabel
-                                active={orden.columna === "totalWeighted"}
-                                direction={orden.ascendente ? "asc" : "desc"}
-                                onClick={() => manejarOrden("totalWeighted")}
-                            >
-                                Total
-                            </TableSortLabel></TableCell>
-                        <TableCell align="center">
-                            <TableSortLabel
-                                active={orden.columna === "total"}
-                                direction={orden.ascendente ? "asc" : "desc"}
-                                onClick={() => manejarOrden("total")}
-                            >
-                                Suma
-                            </TableSortLabel>
-                        </TableCell>
-                        {props.modified && <TableCell align="center" />}
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {listScores(props.loggedCookerId, props.activePageEvent, props.page, props.modified)}
-                </TableBody>
-            </Table>
-        </TableContainer>
-    </div >
-)
+    return (
+        <div>
+            <Item>{props.title}</Item>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="center" width={10}>Pos</TableCell>
+                            <TableCell>Nombre</TableCell>
+                            {scores.weight.taste !== 0 && <TableCell align="center">Sabor</TableCell>}
+                            {scores.weight.taste !== 0 && <TableCell align="center">({scores.weight.taste})</TableCell>}
+                            {scores.weight.presentation !== 0 && <TableCell align="center">Presentación</TableCell>}
+                            {scores.weight.presentation !== 0 && <TableCell align="center">({scores.weight.presentation})</TableCell>}
+                            {scores.weight.elaboration !== 0 && <TableCell align="center">Elaboración</TableCell>}
+                            {scores.weight.elaboration !== 0 && <TableCell align="center">({scores.weight.elaboration})</TableCell>}
+                            {scores.weight.product !== 0 && <TableCell align="center">Producto</TableCell>}
+                            {scores.weight.product !== 0 && <TableCell align="center">({scores.weight.product})</TableCell>}
+                            <TableCell align="center">
+                                <TableSortLabel
+                                    active={orden.columna === "totalWeighted"}
+                                    direction={orden.ascendente ? "asc" : "desc"}
+                                    onClick={() => manejarOrden("totalWeighted")}
+                                >
+                                    Total
+                                </TableSortLabel></TableCell>
+                            <TableCell align="center">
+                                <TableSortLabel
+                                    active={orden.columna === "total"}
+                                    direction={orden.ascendente ? "asc" : "desc"}
+                                    onClick={() => manejarOrden("total")}
+                                >
+                                    Suma
+                                </TableSortLabel>
+                            </TableCell>
+                            {props.modified && <TableCell align="center" />}
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {listScores(props.loggedCookerId, props.activePageEvent, props.page, props.modified)}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </div >
+    )
 }
 
 export default ScoreCookersTable;

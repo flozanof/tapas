@@ -43,8 +43,13 @@ const CookerApp = () => {
         setUser(aUser);
     }
 
+    const handleTournament = (aTournament) => {
+        console.log('cookerApp.handleTournament: ' + aTournament.id + ' - ' + aTournament.votar);
+        setTournament(aTournament);
+    }
+
     const handleLoggingClick = (userId, cookerId, tournament, pageId) => {
-        console.log('cookerApp.js. **** LOGGING *****. userId: ' + userId + ' cookerId: ' + cookerId + ' tournamentId: ' + tournament.id);
+        console.log('cookerApp.js. **** LOGGING *****. userId: ' + userId + ' cookerId: ' + cookerId + ' tournamentId: ' + (tournament === undefined) ? 'undefined' : tournament.id);
         setIdPage(pageId);
         if (userId !== -1) {
             setLoggedUserId(userId);
@@ -72,14 +77,13 @@ const CookerApp = () => {
 
     const getActualPage = () => {
         const pages = [
-            <CookerList tournamentId={tournament.id} activePageEvent={handleStatePageClick} loggedCookerId={loggedCookerId} />,
-            <CookerCard tournamentId={tournament.id} activePageEvent={handleStatePageClick} cookerId={cookerId} loggedCookerId={loggedCookerId} />,
-            <CookersTable tournamentId={tournament.id} activePageEvent={handleStatePageClick} allScore={true} loggedCookerId={loggedCookerId} />,
-            <CookersVoterTable activePageEvent={handleStatePageClick} tournamentId={tournament.id} loggedCookerId={loggedCookerId} loggedUserId={loggedUserId} />,
-            <CookerScoreForm tournamentId={tournament.id} activePageEvent={handleStatePageClick} cookerId={cookerId} loggedCookerId={loggedCookerId} loggedUserId={loggedUserId}/>,
+            <CookerList loggedCookerId={loggedCookerId} tournamentId={tournament.id} tournamentOpen={tournament.votar === 'S'} activePageEvent={handleStatePageClick} />,
+            <CookerCard cookerId={cookerId} loggedCookerId={loggedCookerId} tournamentId={tournament.id} activePageEvent={handleStatePageClick} />,
+            <CookersTable loggedCookerId={loggedCookerId} tournamentId={tournament.id} allScore={true} activePageEvent={handleStatePageClick} />,
+            <CookersVoterTable loggedCookerId={loggedCookerId} loggedUserId={loggedUserId} tournamentId={tournament.id} tournamentOpen={tournament.votar === 'S'} activePageEvent={handleStatePageClick} />,
+            <CookerScoreForm cookerId={cookerId} loggedCookerId={loggedCookerId} loggedUserId={loggedUserId} tournamentId={tournament.id} activePageEvent={handleStatePageClick} />,
             <SelectTournament user={user} loginEvent={handleLoggingClick} />,
-            <CookerChangeUser user={user} changeStateUserEvent={handleUser} loginEvent={handleLoggingClick} pageReturn={0} />
-
+            <CookerChangeUser user={user} pageReturn={0} changeStateUserEvent={handleUser} loginEvent={handleLoggingClick} />
         ];
         return pages[idPage];
     }
@@ -87,7 +91,7 @@ const CookerApp = () => {
     return (
         <div>
             <div>
-                <ToastContainer style={{ whiteSpace: "pre-line" }}/>
+                <ToastContainer style={{ whiteSpace: "pre-line" }} />
             </div>
 
             {((loggedCookerId === -1) || (idPage === -1))
@@ -97,12 +101,15 @@ const CookerApp = () => {
                     <div>
                         <Box sx={{ flexGrow: 1, p: "15px 15px 15px 15px" }}>
                             {
-                                <MainMenu activePageEvent={handleStatePageClick}
+                                <MainMenu
                                     userType={user.userType}
                                     tournamentId={tournament.id}
                                     tournamentOpen={tournament.votar}
                                     loggedCookerId={loggedCookerId}
-                                    tournamentVisible={user.tournaments.length > 1} />
+                                    tournamentVisible={user.tournaments.length > 1}
+                                    handleTournament={handleTournament}
+                                    activePageEvent={handleStatePageClick}
+                                />
                             }
                             {idPage !== 0 &&
                                 <Button

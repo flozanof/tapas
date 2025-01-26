@@ -19,7 +19,7 @@ const CookersVoterTable = (props) => {
 
     if ( (scoresCookers) && (scoresCookers.scores) && (scoresCookers.scores.length > 0) ) {
         return (
-            <ScoreCookersTable title='MIS PUNTUACIONES' scoresInitial={scoresCookers} loggedCookerId={props.loggedCookerId} activePageEvent={props.activePageEvent} page={4} modified={true} />
+            <ScoreCookersTable title='MIS PUNTUACIONES' scoresInitial={scoresCookers} loggedCookerId={props.loggedCookerId} tournamentOpen={props.tournamentOpen} page={4} modified={true} activePageEvent={props.activePageEvent} />
             //            scoreCookersTable('MIS PUNTUACIONES', scoresCookers, props.loggedCookerId, props.activePageEvent, 4, true)
         )
     } else {

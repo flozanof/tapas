@@ -97,7 +97,7 @@ const CookerAvatar = (props) => {
                             </IconButton>
                         </Tooltip>
                     }
-                    {props.scoreEvent &&
+                    {props.scoreEvent && props.tournamentOpen &&
                         <Tooltip title={`Puntuar a ${props.avatarTitle || props.avatarName}`} arrow>
                             <IconButton variant="contained" aria-label="visible off" size="small" color="primary" component="span"
                                 onClick={() => props.scoreEvent(4, props.avatarId)}

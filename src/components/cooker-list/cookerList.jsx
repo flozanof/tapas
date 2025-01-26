@@ -36,6 +36,7 @@ const CookerList = (props) => {
                 <Grid key={cooker.id} item xs={12} sm={6} md={4} lg={3} xl={2}>
                     <CookerAvatar
                         tournamentId={props.tournamentId}
+                        tournamentOpen={props.tournamentOpen}
                         avatarId={cooker.id}
                         avatarTitle={cooker.name}
                         cookerImage={(cooker.base64Image == null) ? null : `data:image/jpg;base64,${cooker.base64Image}`}

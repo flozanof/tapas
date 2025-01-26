@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect, useRef } from "react";
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
@@ -17,12 +17,26 @@ import { ChangeCircle } from '@mui/icons-material';
 import { toast } from 'react-toastify';
 
 export default function MainMenu(props) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [tournamentOpen, setTournamentOpen] = React.useState(props.tournamentOpen);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [tournamentOpen, setTournamentOpen] = useState(props.tournamentOpen);
+  const initialized = useRef(false); // Bandera para evitar la ejecución inicial
   const open = Boolean(anchorEl);
+  const handleTournament = useRef(null);
 
-  React.useEffect(() => {
-    console.log("MAIN MENÚ: Tour. id: " + props.tournamentId + ". Open: " + tournamentOpen + ". User type: " + props.userType );
+  useEffect(() => {
+    handleTournament.current = props.handleTournament;
+  }, [props.handleTournament]);
+
+  useEffect(() => {
+    // En entorno de desarrollo puede ser que se llame al patch porque se lanza dos veces algunas peticiones.
+    if (!initialized.current) {
+      initialized.current = true;
+      return;
+    }
+    if (!handleTournament.current) {
+      console.log('ERROR: función handleTournament no definida.');
+      return;
+    }
     const requestOptions = {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -31,18 +45,21 @@ export default function MainMenu(props) {
       })
     };
     fetch(process.env.REACT_APP_API_VOTE + process.env.REACT_APP_API_VOTE_COURSES_TOURNAMENTS + '/' + props.tournamentId, requestOptions)
-      .then(response => {
-        if (!response.ok) {
-          const error = response.status;
-          return Promise.reject(error);
+      .then(response => response.json())
+      .then((aTournament) => {
+        if (aTournament.id !== undefined) {
+          toast.success((aTournament.votar === 'S') ? 'Votación abierta' : 'Votación cerrada');
+          handleTournament.current(aTournament)
+        } else {
+          toast.error("Error al actualizar el estado del torneo.");
         }
-
-        toast.success((tournamentOpen === 'S') ? 'Votación abierta' : 'Votación cerrada');
       })
-      .catch(error => {
-        toast.error('Error en el cierre/apertura de la votación del torneo.', error);
+      .catch(e => {
+        alert("Error en el cierre/apertura de la votación del torneo: " + e);
+        console.log(e);
+        return e;
       });
-  }, [props.tournamentId, tournamentOpen, props.userType ]);
+  }, [initialized, tournamentOpen, props.tournamentId]);
 
 
   const handleClick = (event) => {
@@ -83,8 +100,8 @@ export default function MainMenu(props) {
               filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
               mt: 1.5,
               '& .MuiAvatar-root': {
-                width: 20,
-                height: 20,
+                width: 16,
+                height: 16,
                 ml: -0.5,
                 mr: 1,
               },
@@ -125,7 +142,7 @@ export default function MainMenu(props) {
         {(props.loggedCookerId !== -1) && (props.loggedCookerId !== 0) &&
           <MenuItem onClick={() => props.activePageEvent(1, props.loggedCookerId)} >
             <ListItemIcon>
-              <Avatar fontSize="small" />
+              <Avatar fontSize="small" sx={{ width: 20, height: 20 }} />
             </ListItemIcon>
             Usuario
           </MenuItem>
