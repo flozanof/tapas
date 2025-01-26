@@ -8,16 +8,26 @@ import SendIcon from '@mui/icons-material/Send';
 import { toast } from 'react-toastify';
 import SelectTournament from "../tournament/selectTournament";
 import CookerChangeUser from "./CookerChangeUser";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const CookerLogin = (props) => {
     // React States
     const [isReadOnly, setIsReadOnly] = useState(false);
     const [user, setUser] = useState({});
     const [nextForm, setNextForm] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+
     const [values, setValues] = React.useState({
         uname: '',
         pass: ''
     });
+
+    const togglePasswordVisibility = () => {
+        setShowPassword((prev) => !prev);
+    };
 
     React.useEffect(() => {
         if ((user.user !== undefined) || (user.txtError !== undefined)) {
@@ -77,9 +87,9 @@ const CookerLogin = (props) => {
             })
             .catch(e => {
                 alert("Error conexión Servidor: " + e);
-                console.log(e); 
+                console.log(e);
                 return e;
-                });
+            });
     };
 
     // Formulario para introducir las credenciales.
@@ -121,11 +131,23 @@ const CookerLogin = (props) => {
                                 <TextField
                                     id="outlined-number2"
                                     label="Contraseña"
-                                    type="password"
+                                    type={showPassword ? "text" : "password"}
                                     name="pass"
                                     value={pass}
                                     onChange={handleChange}
                                     disabled={isReadOnly}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    onClick={togglePasswordVisibility}
+                                                    edge="end"
+                                                >
+                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
                                 />
                                 <Box m={1}>
                                     <Button type="submit" variant="outlined" startIcon={<SendIcon />} disabled={isReadOnly}>

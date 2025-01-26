@@ -43,8 +43,8 @@
     - Un valor entre 1 y 10 si el marcador está habilitado y ha sido asignado.
 
 - Poder puntuar sin haber hecho un plato.
-  - He creado usuario voter1/voter1 con acceso torneo 3.
-  - Cuando se valida da error porque el cooker que se retorna (selectTournament.jsx) es null.
+  - He creado usuario voter1/voter1 con acceso torneo 2 y 3. (TERMINADO)
+  - Cuando se valida da error porque el cooker que se retorna (selectTournament.jsx) es null. (TERMINADO)
 
 - En la lista de cocineros indicar que no ha puntuado a ese usuario:
   - poniendo el icono de "lista" de un color diferente (rojo)
